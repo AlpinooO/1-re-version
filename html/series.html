@@ -12,20 +12,34 @@
   <header class="topbar">
     <a href="../index.html" class="brand">Blue<span class="accent">Flix</span></a>
 
+    <!-- Navigation desktop -->
+    <nav class="nav desktop-nav">
+      <a href="../index.html">Accueil</a>
+      <a href="../html/movies.html">Films</a>
+      <a href="../html/series.html" class="active">Séries</a>
+      <a href="../html/about.html">À propos</a>
+    </nav>
+
     <div class="search-container">
       <input type="text" id="search-input" placeholder="Rechercher un film ou une série...">
       <button id="search-btn">🔍</button>
     </div>
-
-    <button class="hamburger" aria-label="Ouvrir le menu">☰</button>
-
-    <nav class="nav">
-      <a href="../index.html">Accueil</a>
-      <a href="../html/movies.html">Films</a>
-      <a href="../html/series.html">Séries</a>
-      <a href="../html/about.html">À propos</a>
-    </nav>
+    
+    <!-- Menu hamburger pour mobile -->
+    <button class="hamburger" id="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
   </header>
+  
+  <!-- Menu mobile -->
+  <nav class="mobile-nav" id="mobile-nav">
+    <a href="../index.html">Accueil</a>
+    <a href="../html/movies.html">Films</a>
+    <a href="../html/series.html" class="active">Séries</a>
+    <a href="../html/about.html">À propos</a>
+  </nav>
 
   <main class="container">
     <h1>Séries</h1>

@@ -3,6 +3,45 @@ const BASE_URL = "https://api.themoviedb.org/3";
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500";
 
 // =========================
+// Menu Hamburger
+// =========================
+function initHamburgerMenu() {
+  const hamburger = document.getElementById("hamburger");
+  const mobileNav = document.getElementById("mobile-nav");
+
+  if (hamburger && mobileNav) {
+    hamburger.addEventListener("click", () => {
+      hamburger.classList.toggle("active");
+      mobileNav.classList.toggle("open");
+    });
+
+    // Fermer le menu quand on clique sur un lien
+    mobileNav.addEventListener("click", (e) => {
+      if (e.target.tagName === "A") {
+        hamburger.classList.remove("active");
+        mobileNav.classList.remove("open");
+      }
+    });
+
+    // Fermer le menu quand on clique à côté
+    document.addEventListener("click", (e) => {
+      if (!mobileNav.contains(e.target) && !hamburger.contains(e.target)) {
+        hamburger.classList.remove("active");
+        mobileNav.classList.remove("open");
+      }
+    });
+
+    // Fermer le menu lors du redimensionnement de l'écran
+    window.addEventListener("resize", () => {
+      if (window.innerWidth >= 768) {
+        hamburger.classList.remove("active");
+        mobileNav.classList.remove("open");
+      }
+    });
+  }
+}
+
+// =========================
 // Fetch API
 // =========================
 async function fetchData(url) {
@@ -689,6 +728,7 @@ function handleEscapeKey(e) {
 // Init
 // =========================
 document.addEventListener("DOMContentLoaded", () => {
+  initHamburgerMenu();
   if (document.body.classList.contains("home-page")) loadHome();
   if (document.body.classList.contains("movies-page")) loadMoviesPage();
   if (document.body.classList.contains("series-page")) loadSeriesPage();

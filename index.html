@@ -11,17 +11,35 @@
 
   <header class="topbar">
     <a href="index.html" class="brand">Blue<span class="accent">Flix</span></a>
-    <nav class="nav" id="nav">
+    
+    <!-- Navigation desktop -->
+    <nav class="nav desktop-nav">
       <a href="index.html">Accueil</a>
       <a href="html/movies.html">Films</a>
       <a href="html/series.html">Séries</a>
       <a href="html/about.html">À propos</a>
     </nav>
+    
     <div class="search-container">
       <input type="text" id="search-input" placeholder="Rechercher...">
       <button id="search-btn">🔍</button>
     </div>
+    
+    <!-- Menu hamburger pour mobile -->
+    <button class="hamburger" id="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
   </header>
+  
+  <!-- Menu mobile -->
+  <nav class="mobile-nav" id="mobile-nav">
+    <a href="index.html">Accueil</a>
+    <a href="html/movies.html">Films</a>
+    <a href="html/series.html">Séries</a>
+    <a href="html/about.html">À propos</a>
+  </nav>
 
   <main class="container">
     <section class="hero">
