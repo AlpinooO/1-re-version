@@ -1,0 +1,468 @@
+/* =========================
+   Variables
+========================= */
+:root {
+  --blue-400: #1392ff;
+  --blue-500: #0b78d1;
+  --blue-600: #0c6fc0;
+  --blue-700: #075ea0;
+
+  --bg: #0a0f1a;
+  --panel: #141b2d;
+  --text: #e6eef7;
+  --muted: #9eb6d0;
+
+  --card-shadow: 0 8px 24px rgba(0,0,0,0.7);
+  --radius: 0.5rem;
+}
+
+/* =========================
+   Reset / Base
+========================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  font-family: Inter, system-ui, sans-serif;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+}
+
+img {
+  display: block;
+  width: 100%;
+  border-radius: var(--radius);
+  object-fit: cover;
+}
+
+/* =========================
+   Layout
+========================= */
+.site {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.container {
+  flex: 1;
+  padding: 1rem;
+}
+
+/* =========================
+   Topbar
+========================= */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 0.75rem 1rem;
+
+  background: rgba(10, 15, 25, 0.95);
+  border-bottom: 2px solid var(--blue-500);
+}
+
+.brand {
+  font-weight: 900;
+  font-size: 1.5rem;
+  color: var(--blue-500);
+}
+
+.brand .accent {
+  color: var(--blue-400);
+}
+
+.nav {
+  display: flex;
+  gap: 1rem;
+  transition: all 0.3s ease;
+}
+
+.nav a {
+  color: var(--text);
+  text-decoration: none;
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--radius);
+  transition: background 0.3s, color 0.3s, transform 0.2s;
+}
+
+.nav a:hover {
+  background: var(--blue-600);
+  color: #fff;
+  transform: scale(1.05);
+}
+
+.nav a.active {
+  background: var(--blue-500);
+  color: #fff;
+  font-weight: 700;
+  transform: scale(1.05);
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: auto;
+}
+
+.search-container input {
+  padding: 0.4rem 0.6rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--blue-500);
+  background: var(--panel);
+  color: var(--text);
+  outline: none;
+  transition: all 0.3s;
+}
+
+.search-container input:focus {
+  border-color: var(--blue-400);
+  box-shadow: 0 0 5px var(--blue-400);
+}
+
+.search-container button {
+  background: var(--blue-600);
+  border: none;
+  padding: 0.4rem 0.8rem;
+  color: #fff;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.search-container button:hover {
+  background: var(--blue-500);
+}
+
+/* =========================
+   Hamburger
+========================= */
+.hamburger {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  color: var(--text);
+  cursor: pointer;
+  z-index: 300;
+}
+
+/* =========================
+   Hero
+========================= */
+.hero {
+  position: relative;
+  min-height: 60vh;
+
+  display: flex;
+  align-items: flex-end;
+
+  padding: 2rem;
+  margin-bottom: 1rem;
+
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.2)),
+    url("https://picsum.photos/1600/900?blur=2") center/cover;
+}
+
+.hero h1 {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--blue-400);
+  margin-bottom: 0.5rem;
+}
+
+.hero p {
+  max-width: 640px;
+  color: var(--muted);
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+}
+
+.cta {
+  display: inline-block;
+  padding: 0.9rem 1.5rem;
+  background: var(--blue-600);
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: var(--radius);
+  transition: background 0.3s;
+}
+
+.cta:hover {
+  background: var(--blue-500);
+}
+
+/* =========================
+   Rows Netflix Style
+========================= */
+.strip {
+  margin: 1.5rem 0;
+}
+
+.strip h2 {
+  margin: 0 0 1rem;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--blue-400);
+}
+
+.row {
+  display: flex;
+  gap: 0.8rem;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding-bottom: 0.5rem;
+}
+
+.row::-webkit-scrollbar {
+  display: none;
+}
+
+.card {
+  flex: 0 0 auto;
+  background: var(--panel);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--card-shadow);
+  transition: transform 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+}
+
+.card img {
+  width: 160px;
+  height: 240px;
+  object-fit: cover;
+}
+
+.card:hover {
+  transform: scale(1.08);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.9);
+}
+
+/* =========================
+   Footer
+========================= */
+.footer {
+  padding: 2rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--muted);
+  border-top: 2px solid var(--blue-500);
+  background: #0a0f1a;
+}
+
+/* =========================
+   Modal
+========================= */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.85);
+  display: none;
+  justify-content: flex-start;
+  align-items: flex-start;
+  z-index: 1000;
+  overflow-y: auto;
+  padding: 2rem 1rem;
+}
+
+.modal-content {
+  background: var(--panel);
+  border-radius: var(--radius);
+  max-width: 1000px;
+  width: 100%;
+  margin: 2rem auto;
+  padding: 1rem;
+  position: relative;
+}
+
+.modal-close {
+  position: absolute;
+  top: 0.5rem;
+  right: 1rem;
+  font-size: 2rem;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.modal-body {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: flex-start;
+}
+
+/* =========================
+   Search in Modal
+========================= */
+.modal-body .search-container {
+  width: 100%;
+  margin-bottom: 1rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* =========================
+   Hamburger Animation
+========================= */
+@media (max-width: 1024px) {
+  .nav {
+    display: flex; 
+    flex-direction: column;
+    gap: 0;
+    background: var(--panel);
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    padding: 0;
+    border-top: 1px solid var(--blue-500);
+    transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  }
+
+  .nav a {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--blue-500);
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+
+  .nav.active {
+    max-height: 500px;
+    opacity: 1;
+    padding: 1rem 0;
+  }
+
+  .nav.active a {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .hamburger {
+    display: block;
+    z-index: 300;
+  }
+
+  .search-container {
+    width: 100%;
+    margin: 0.5rem 0;
+  }
+  .search-container input {
+    flex: 1;
+  }
+}
+
+/* =========================
+   Responsive Cards
+========================= */
+@media (max-width: 767px) {
+  .hero {
+    min-height: 40vh;
+    padding: 1rem;
+  }
+
+  .hero h1 {
+    font-size: 1.8rem;
+  }
+
+  .hero p {
+    font-size: 1rem;
+  }
+
+  .row {
+    gap: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+
+  .card img {
+    width: 120px;
+    height: 180px;
+  }
+
+  .cta {
+    padding: 0.7rem 1.2rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .hero h1 {
+    font-size: 2.2rem;
+  }
+
+  .hero p {
+    font-size: 1.05rem;
+  }
+
+  .card img {
+    width: 160px;
+    height: 240px;
+  }
+}
+
+
+.row-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.row {
+  display: flex;
+  gap: 0.8rem;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding: 0.5rem 0;
+}
+
+.scroll-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scroll-btn.left {
+  left: 0;
+}
+
+.scroll-btn.right {
+  right: 0;
+}
+
+.scroll-btn:hover {
+  background: rgba(0,0,0,0.9);
+}
