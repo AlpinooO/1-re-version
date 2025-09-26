@@ -75,3 +75,5 @@ Le projet utilise l'API **The Movie Database (TMDB)** pour récupérer :
 - Données de casting et équipe
 - Évaluations et critiques
 
+
+## MALGONNE Léo B3 DEV 3
