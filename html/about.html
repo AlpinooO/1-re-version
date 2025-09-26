@@ -16,12 +16,39 @@
       <a href="../index.html">Accueil</a>
       <a href="../html/movies.html">Films</a>
       <a href="../html/series.html">Séries</a>
+      <a href="../html/list.html" id="nav-lists">Mes Listes</a>
       <a href="../html/about.html" class="active">À propos</a>
     </nav>
     
     <div class="search-container">
       <input type="text" id="search-input" placeholder="Rechercher un film ou une série...">
       <button id="search-btn">🔍</button>
+    </div>
+    
+    <!-- Menu utilisateur -->
+    <div class="user-menu" id="user-menu">
+      <!-- Boutons pour utilisateurs non connectés -->
+      <div class="auth-buttons" id="auth-buttons">
+        <button class="btn-login" id="btn-login">Connexion</button>
+        <button class="btn-register" id="btn-register">Inscription</button>
+      </div>
+      
+      <!-- Menu pour utilisateurs connectés -->
+      <div class="user-profile" id="user-profile" style="display: none;">
+        <div class="user-avatar" id="user-avatar">
+          <span id="user-initial">U</span>
+        </div>
+        <div class="user-dropdown" id="user-dropdown">
+          <div class="user-info">
+            <span class="user-name" id="user-name">Utilisateur</span>
+            <span class="user-email" id="user-email">user@example.com</span>
+          </div>
+          <hr>
+          <a href="../html/list.html" class="dropdown-item">📋 Mes Listes</a>
+          <a href="#" class="dropdown-item">⚙️ Paramètres</a>
+          <button class="dropdown-item logout-btn" id="logout-btn">🚪 Déconnexion</button>
+        </div>
+      </div>
     </div>
     
     <!-- Menu hamburger pour mobile -->
@@ -34,10 +61,33 @@
   
   <!-- Menu mobile -->
   <nav class="mobile-nav" id="mobile-nav">
-    <a href="../index.html">Accueil</a>
-    <a href="../html/movies.html">Films</a>
-    <a href="../html/series.html">Séries</a>
-    <a href="../html/about.html" class="active">À propos</a>
+    <a href="../index.html">🏠 Accueil</a>
+    <a href="../html/movies.html">🎬 Films</a>
+    <a href="../html/series.html">📺 Séries</a>
+    <a href="../html/list.html" id="mobile-nav-lists">📋 Mes Listes</a>
+    <a href="../html/about.html" class="active">ℹ️ À propos</a>
+    <hr>
+    <!-- Boutons auth pour mobile -->
+    <div class="mobile-auth-buttons" id="mobile-auth-buttons">
+      <button class="btn-login mobile" id="mobile-btn-login">🔑 Connexion</button>
+      <button class="btn-register mobile" id="mobile-btn-register">📝 Inscription</button>
+    </div>
+    <!-- Profil utilisateur pour mobile -->
+    <div class="mobile-user-profile" id="mobile-user-profile" style="display: none;">
+      <div class="mobile-user-info">
+        <div class="mobile-user-avatar">
+          <span id="mobile-user-initial">U</span>
+        </div>
+        <div class="mobile-user-details">
+          <span class="mobile-user-name" id="mobile-user-name">Utilisateur</span>
+          <span class="mobile-user-email" id="mobile-user-email">user@example.com</span>
+        </div>
+      </div>
+      <hr>
+      <a href="../html/list.html" class="mobile-nav-item">📋 Mes Listes</a>
+      <a href="#" class="mobile-nav-item">⚙️ Paramètres</a>
+      <button class="mobile-nav-item logout-btn" id="mobile-logout-btn">🚪 Déconnexion</button>
+    </div>
   </nav>
 
     <main class="container">
@@ -49,6 +99,63 @@
       <p>© 2025 BlueFlix</p>
     </footer>
   </div>
+
+<!-- Modales d'authentification -->
+<div id="login-modal" class="auth-modal">
+  <div class="auth-modal-content">
+    <div class="auth-modal-header">
+      <h2>Connexion</h2>
+      <button class="auth-modal-close" id="login-modal-close">&times;</button>
+    </div>
+    <form id="login-form" class="auth-form">
+      <div class="form-group">
+        <label for="login-email">Email</label>
+        <input type="email" id="login-email" name="email" required>
+      </div>
+      <div class="form-group">
+        <label for="login-password">Mot de passe</label>
+        <input type="password" id="login-password" name="password" required>
+      </div>
+      <button type="submit" class="auth-submit-btn">Se connecter</button>
+      <div class="auth-form-footer">
+        <p>Pas encore de compte ? <button type="button" id="switch-to-register" class="link-btn">S'inscrire</button></p>
+      </div>
+    </form>
+    <div id="login-message" class="auth-message"></div>
+  </div>
+</div>
+
+<div id="register-modal" class="auth-modal">
+  <div class="auth-modal-content">
+    <div class="auth-modal-header">
+      <h2>Inscription</h2>
+      <button class="auth-modal-close" id="register-modal-close">&times;</button>
+    </div>
+    <form id="register-form" class="auth-form">
+      <div class="form-group">
+        <label for="register-name">Nom complet</label>
+        <input type="text" id="register-name" name="name" required>
+      </div>
+      <div class="form-group">
+        <label for="register-email">Email</label>
+        <input type="email" id="register-email" name="email" required>
+      </div>
+      <div class="form-group">
+        <label for="register-password">Mot de passe</label>
+        <input type="password" id="register-password" name="password" required>
+      </div>
+      <div class="form-group">
+        <label for="register-confirm-password">Confirmer le mot de passe</label>
+        <input type="password" id="register-confirm-password" name="confirmPassword" required>
+      </div>
+      <button type="submit" class="auth-submit-btn">S'inscrire</button>
+      <div class="auth-form-footer">
+        <p>Déjà un compte ? <button type="button" id="switch-to-login" class="link-btn">Se connecter</button></p>
+      </div>
+    </form>
+    <div id="register-message" class="auth-message"></div>
+  </div>
+</div>
 
 <script type="module" src="../script/app.js"></script>
 </body>

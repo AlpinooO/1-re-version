@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>BlueFlix — Mes Listes</title>
   <link rel="stylesheet" href="../css/styles.css">
-  <link rel="stylesheet" href="../css/list.css">
 </head>
 <body class="list-page">
 <div class="site">
@@ -16,10 +15,10 @@
     <!-- Navigation desktop -->
     <nav class="nav desktop-nav">
       <a href="../index.html">Accueil</a>
-      <a href="movies.html">Films</a>
-      <a href="series.html">Séries</a>
-      <a href="list.html" class="active">Mes Listes</a>
-      <a href="about.html">À propos</a>
+      <a href="../html/movies.html">Films</a>
+      <a href="../html/series.html">Séries</a>
+      <a href="../html/list.html" class="active">Mes Listes</a>
+      <a href="../html/about.html">À propos</a>
     </nav>
     
     <div class="search-container">
@@ -31,8 +30,8 @@
     <div class="user-menu" id="user-menu">
       <!-- Boutons pour utilisateurs non connectés -->
       <div class="auth-buttons" id="auth-buttons">
-        <button class="auth-btn login-btn" id="login-btn">Connexion</button>
-        <button class="auth-btn register-btn" id="register-btn">Inscription</button>
+        <button class="btn-login" id="btn-login">Connexion</button>
+        <button class="btn-register" id="btn-register">Inscription</button>
       </div>
       
       <!-- Menu pour utilisateurs connectés -->
@@ -46,7 +45,7 @@
             <span class="user-email" id="user-email">user@example.com</span>
           </div>
           <hr>
-          <a href="list.html" class="dropdown-item">📋 Mes Listes</a>
+          <a href="../html/list.html" class="dropdown-item">📋 Mes Listes</a>
           <a href="#" class="dropdown-item">⚙️ Paramètres</a>
           <button class="dropdown-item logout-btn" id="logout-btn">🚪 Déconnexion</button>
         </div>
@@ -63,11 +62,33 @@
   
   <!-- Menu mobile -->
   <nav class="mobile-nav" id="mobile-nav">
-    <a href="../index.html">Accueil</a>
-    <a href="movies.html">Films</a>
-    <a href="series.html">Séries</a>
-    <a href="list.html" class="active">Mes Listes</a>
-    <a href="about.html">À propos</a>
+    <a href="../index.html">🏠 Accueil</a>
+    <a href="../html/movies.html">🎬 Films</a>
+    <a href="../html/series.html">📺 Séries</a>
+    <a href="../html/list.html" class="active">📋 Mes Listes</a>
+    <a href="../html/about.html">ℹ️ À propos</a>
+    <hr>
+    <!-- Boutons auth pour mobile -->
+    <div class="mobile-auth-buttons" id="mobile-auth-buttons">
+      <button class="btn-login mobile" id="mobile-btn-login">🔑 Connexion</button>
+      <button class="btn-register mobile" id="mobile-btn-register">📝 Inscription</button>
+    </div>
+    <!-- Profil utilisateur pour mobile -->
+    <div class="mobile-user-profile" id="mobile-user-profile" style="display: none;">
+      <div class="mobile-user-info">
+        <div class="mobile-user-avatar">
+          <span id="mobile-user-initial">U</span>
+        </div>
+        <div class="mobile-user-details">
+          <span class="mobile-user-name" id="mobile-user-name">Utilisateur</span>
+          <span class="mobile-user-email" id="mobile-user-email">user@example.com</span>
+        </div>
+      </div>
+      <hr>
+      <a href="../html/list.html" class="mobile-nav-item">📋 Mes Listes</a>
+      <a href="#" class="mobile-nav-item">⚙️ Paramètres</a>
+      <button class="mobile-nav-item logout-btn" id="mobile-logout-btn">🚪 Déconnexion</button>
+    </div>
   </nav>
 
   <main class="container">
@@ -76,8 +97,8 @@
       <div class="login-required-content">
         <h2>🔐 Connexion requise</h2>
         <p>Vous devez être connecté pour accéder à vos listes personnalisées.</p>
-        <button class="auth-btn login-btn" onclick="document.getElementById('login-btn').click()">Se connecter</button>
-        <button class="auth-btn register-btn" onclick="document.getElementById('register-btn').click()">Créer un compte</button>
+        <button class="btn-login" onclick="document.getElementById('btn-login').click()">Se connecter</button>
+        <button class="btn-register" onclick="document.getElementById('btn-register').click()">Créer un compte</button>
       </div>
     </div>
 
@@ -153,11 +174,11 @@
     <form id="login-form" class="auth-form">
       <div class="form-group">
         <label for="login-email">Email</label>
-        <input type="email" id="login-email" required>
+        <input type="email" id="login-email" name="email" required>
       </div>
       <div class="form-group">
         <label for="login-password">Mot de passe</label>
-        <input type="password" id="login-password" required>
+        <input type="password" id="login-password" name="password" required>
       </div>
       <div class="form-error" id="login-error"></div>
       <button type="submit" class="auth-submit-btn">Se connecter</button>
@@ -175,19 +196,19 @@
     <form id="register-form" class="auth-form">
       <div class="form-group">
         <label for="register-name">Nom complet</label>
-        <input type="text" id="register-name" required>
+        <input type="text" id="register-name" name="name" required>
       </div>
       <div class="form-group">
         <label for="register-email">Email</label>
-        <input type="email" id="register-email" required>
+        <input type="email" id="register-email" name="email" required>
       </div>
       <div class="form-group">
         <label for="register-password">Mot de passe</label>
-        <input type="password" id="register-password" required>
+        <input type="password" id="register-password" name="password" required>
       </div>
       <div class="form-group">
         <label for="register-confirm">Confirmer le mot de passe</label>
-        <input type="password" id="register-confirm" required>
+        <input type="password" id="register-confirm" name="confirm" required>
       </div>
       <div class="form-error" id="register-error"></div>
       <button type="submit" class="auth-submit-btn">S'inscrire</button>

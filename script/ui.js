@@ -46,6 +46,8 @@ export class UIManager {
 
   // Créer une carte de film/série
   static createCard(item, type = "movie") {
+    console.log("🎨 Création carte pour:", item.title || item.name, "- Type:", type);
+    
     if (!item.poster_path) {
       console.log("⚠️ Skipping item without poster:", item.title || item.name);
       return null;
@@ -56,12 +58,16 @@ export class UIManager {
     card.style.cursor = "pointer";
     card.dataset.id = item.id;
     card.dataset.type = type;
-    card.innerHTML = `<img src="${TMDBAPI.getImageUrl(item.poster_path)}" alt="${
+    
+    const imageUrl = TMDBAPI.getImageUrl(item.poster_path);
+    console.log("🖼️ Image URL:", imageUrl);
+    
+    card.innerHTML = `<img src="${imageUrl}" alt="${
       type === "movie" ? item.title : item.name
     }">`;
 
     // Ajouter l'événement de clic pour ouvrir la popup
-    card.addEventListener("click", () => this.showDetailModal(item.id, type));
+    card.addEventListener("click", () => UIManager.showDetailModal(item.id, type));
 
     return card;
   }
@@ -167,10 +173,15 @@ export class UIManager {
     });
   }
 
-  // Placeholder pour la modal détaillée (sera implémentée dans modals.js)
+  // Appel vers la fonction principale showDetailModal
   static showDetailModal(id, type) {
     console.log(`🎬 Opening detail modal for ${type} ${id}`);
-    // Cette fonction sera remplacée par l'import de modals.js
+    // Appeler la fonction principale si disponible
+    if (window.showDetailModal) {
+      window.showDetailModal(id, type);
+    } else {
+      console.error("❌ window.showDetailModal non disponible");
+    }
   }
 
   // Utilitaires pour manipuler les classes CSS
@@ -193,6 +204,18 @@ export class UIManager {
 
   static appendToContainer(container, element) {
     if (container && element) container.appendChild(element);
+  }
+
+  // Gestion des messages informatifs
+  static showMessage(container, message) {
+    if (container) {
+      container.innerHTML = `
+        <div class="info-message">
+          <h3>ℹ️ Information</h3>
+          <p>${message}</p>
+        </div>
+      `;
+    }
   }
 
   // Gestion des états d'erreur

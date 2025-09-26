@@ -301,6 +301,34 @@
   }
 }
 
+/* Styles pour les messages d'erreur */
+.form-error {
+  color: #ff4757;
+  background: rgba(255, 71, 87, 0.1);
+  border: 1px solid rgba(255, 71, 87, 0.3);
+  border-radius: var(--radius);
+  padding: 0.75rem;
+  margin: 0.5rem 0;
+  font-size: 0.875rem;
+  display: none;
+  animation: errorSlideIn 0.3s ease-out;
+}
+
+.form-error:not(:empty) {
+  display: block;
+}
+
+@keyframes errorSlideIn {
+  from {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
 @keyframes modalSlideIn {
   from {
     transform: scale(0.9) translateY(-20px);

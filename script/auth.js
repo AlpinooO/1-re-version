@@ -57,9 +57,11 @@ class AuthSystem {
 
   // Configuration des event listeners
   setupEventListeners() {
-    // Boutons d'ouverture des modals - supporter plusieurs IDs
+    // Boutons d'ouverture des modals - supporter plusieurs IDs (desktop et mobile)
     const loginBtn = document.getElementById('login-btn') || document.getElementById('btn-login');
     const registerBtn = document.getElementById('register-btn') || document.getElementById('btn-register');
+    const mobileLoginBtn = document.getElementById('mobile-btn-login');
+    const mobileRegisterBtn = document.getElementById('mobile-btn-register');
     
     if (loginBtn) {
       loginBtn.addEventListener('click', (e) => {
@@ -80,6 +82,24 @@ class AuthSystem {
       console.log("🔗 Event listener ajouté au bouton d'inscription");
     } else {
       console.warn("⚠️ Bouton d'inscription non trouvé");
+    }
+    
+    // Boutons mobiles
+    if (mobileLoginBtn) {
+      mobileLoginBtn.addEventListener('click', (e) => {
+        console.log('🔓 Click sur bouton mobile login détecté');
+        e.preventDefault();
+        this.showLoginModal();
+      });
+      console.log("🔗 Event listener ajouté au bouton mobile de connexion");
+    }
+    if (mobileRegisterBtn) {
+      mobileRegisterBtn.addEventListener('click', (e) => {
+        console.log('📝 Click sur bouton mobile register détecté');
+        e.preventDefault();
+        this.showRegisterModal();
+      });
+      console.log("🔗 Event listener ajouté au bouton mobile d'inscription");
     }
 
     // Boutons de fermeture des modals
@@ -116,9 +136,11 @@ class AuthSystem {
     if (loginForm) loginForm.addEventListener('submit', (e) => this.handleLogin(e));
     if (registerForm) registerForm.addEventListener('submit', (e) => this.handleRegister(e));
 
-    // Bouton de déconnexion
+    // Boutons de déconnexion (desktop et mobile)
     const logoutBtn = document.getElementById('logout-btn');
+    const mobileLogoutBtn = document.getElementById('mobile-logout-btn');
     if (logoutBtn) logoutBtn.addEventListener('click', () => this.logout());
+    if (mobileLogoutBtn) mobileLogoutBtn.addEventListener('click', () => this.logout());
 
     // Fermeture des modals en cliquant à l'extérieur
     window.addEventListener('click', (e) => {
@@ -337,11 +359,16 @@ class AuthSystem {
 
   // Mise à jour de l'interface utilisateur
   updateUI() {
+    // Éléments desktop
     const authButtons = document.getElementById('auth-buttons');
     const userProfile = document.getElementById('user-profile');
     
+    // Éléments mobile
+    const mobileAuthButtons = document.getElementById('mobile-auth-buttons');
+    const mobileUserProfile = document.getElementById('mobile-user-profile');
+    
     if (this.currentUser) {
-      // Utilisateur connecté
+      // Utilisateur connecté - Version desktop
       if (authButtons) {
         authButtons.innerHTML = '';
         authButtons.style.display = 'none';
@@ -350,8 +377,17 @@ class AuthSystem {
         userProfile.style.display = 'block';
         this.updateUserProfile();
       }
+      
+      // Utilisateur connecté - Version mobile
+      if (mobileAuthButtons) {
+        mobileAuthButtons.style.display = 'none';
+      }
+      if (mobileUserProfile) {
+        mobileUserProfile.style.display = 'block';
+        this.updateMobileUserProfile();
+      }
     } else {
-      // Utilisateur non connecté
+      // Utilisateur non connecté - Version desktop
       if (authButtons) {
         authButtons.innerHTML = `
           <button class="btn-login" id="btn-login">Connexion</button>
@@ -367,6 +403,24 @@ class AuthSystem {
       }
       if (userProfile) {
         userProfile.style.display = 'none';
+      }
+      
+      // Utilisateur non connecté - Version mobile  
+      if (mobileAuthButtons) {
+        mobileAuthButtons.innerHTML = `
+          <button class="btn-login mobile" id="mobile-btn-login">🔑 Connexion</button>
+          <button class="btn-register mobile" id="mobile-btn-register">📝 Inscription</button>
+        `;
+        mobileAuthButtons.style.display = 'block';
+        
+        // Rebinder les événements mobiles
+        const newMobileLoginBtn = document.getElementById('mobile-btn-login');
+        const newMobileRegisterBtn = document.getElementById('mobile-btn-register');
+        if (newMobileLoginBtn) newMobileLoginBtn.addEventListener('click', () => this.showLoginModal());
+        if (newMobileRegisterBtn) newMobileRegisterBtn.addEventListener('click', () => this.showRegisterModal());
+      }
+      if (mobileUserProfile) {
+        mobileUserProfile.style.display = 'none';
       }
     }
     
@@ -387,6 +441,22 @@ class AuthSystem {
     if (userName) userName.textContent = user.name;
     if (userEmail) userEmail.textContent = user.email;
     if (userInitial) userInitial.textContent = user.name.charAt(0).toUpperCase();
+  }
+
+  // Mise à jour du profil utilisateur mobile
+  updateMobileUserProfile() {
+    if (!this.currentUser) return;
+    
+    const users = this.getUsers();
+    const user = users[this.currentUser];
+    
+    const mobileUserName = document.getElementById('mobile-user-name');
+    const mobileUserEmail = document.getElementById('mobile-user-email');
+    const mobileUserInitial = document.getElementById('mobile-user-initial');
+    
+    if (mobileUserName) mobileUserName.textContent = user.name;
+    if (mobileUserEmail) mobileUserEmail.textContent = user.email;
+    if (mobileUserInitial) mobileUserInitial.textContent = user.name.charAt(0).toUpperCase();
   }
 
   // Mise à jour de la navigation
@@ -534,8 +604,14 @@ function initAuth() {
   // Fonctions globales pour le debug
   window.testLogin = () => window.auth.showLoginModal();
   window.testRegister = () => window.auth.showRegisterModal();
+  window.testAuth = () => {
+    console.log("🧪 Test du système d'authentification:");
+    console.log("- Utilisateur actuel:", window.auth.currentUser);
+    console.log("- Utilisateurs stockés:", Object.keys(window.auth.getUsers()));
+    console.log("- Connecté:", window.auth.isLoggedIn());
+  };
   
-  console.log("🧪 Fonctions de test créées : testLogin() et testRegister()");
+  console.log("🧪 Fonctions de test créées : testLogin(), testRegister(), testAuth()");
   
   return window.auth;
 }
@@ -627,3 +703,6 @@ if (!document.getElementById('auth-notification-styles')) {
   `;
   document.head.appendChild(style);
 }
+
+// Export pour la compatibilité ES6
+export { AuthSystem, initAuth };

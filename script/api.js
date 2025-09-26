@@ -26,25 +26,30 @@ export class TMDBAPI {
   // Films populaires
   static async getPopularMovies() {
     const url = `${BASE_URL}${CONFIG.endpoints.popularMovies}?api_key=${API_KEY}&language=fr-FR`;
-    return this.fetchData(url);
+    console.log("🎬 Fetching popular movies from:", url);
+    const data = await this.fetchData(url);
+    return data?.results || [];
   }
 
   // Séries populaires
   static async getPopularSeries() {
     const url = `${BASE_URL}${CONFIG.endpoints.popularSeries}?api_key=${API_KEY}&language=fr-FR`;
-    return this.fetchData(url);
+    const data = await this.fetchData(url);
+    return data?.results || [];
   }
 
   // Films les mieux notés
   static async getTopRatedMovies() {
     const url = `${BASE_URL}${CONFIG.endpoints.topRated}?api_key=${API_KEY}&language=fr-FR`;
-    return this.fetchData(url);
+    const data = await this.fetchData(url);
+    return data?.results || [];
   }
 
   // Tendances de la semaine
   static async getTrendingMovies() {
-    const url = `${BASE_URL}${CONFIG.endpoints.trending}?api_key=${API_KEY}&language=fr-FR`;
-    return this.fetchData(url);
+    const url = `${BASE_URL}${CONFIG.endpoints.trendingMovies}?api_key=${API_KEY}&language=fr-FR`;
+    const data = await this.fetchData(url);
+    return data?.results || [];
   }
 
   // Recherche multi-média
@@ -75,6 +80,48 @@ export class TMDBAPI {
   static async getMovieVideos(id) {
     const url = `${BASE_URL}${CONFIG.endpoints.movieVideos.replace('{id}', id)}?api_key=${API_KEY}&language=fr-FR`;
     return this.fetchData(url);
+  }
+
+  // Séries mieux notées
+  static async getTopRatedSeries() {
+    const url = `${BASE_URL}${CONFIG.endpoints.topRatedSeries}?api_key=${API_KEY}&language=fr-FR`;
+    const data = await this.fetchData(url);
+    return data?.results || [];
+  }
+
+  // Séries tendance
+  static async getTrendingSeries() {
+    const url = `${BASE_URL}${CONFIG.endpoints.trendingSeries}?api_key=${API_KEY}&language=fr-FR`;
+    const data = await this.fetchData(url);
+    return data?.results || [];
+  }
+
+  // Séries diffusées aujourd'hui
+  static async getAiringTodaySeries() {
+    const url = `${BASE_URL}${CONFIG.endpoints.airingTodaySeries}?api_key=${API_KEY}&language=fr-FR`;
+    const data = await this.fetchData(url);
+    return data?.results || [];
+  }
+
+  // Séries actuellement à l'antenne
+  static async getOnTheAirSeries() {
+    const url = `${BASE_URL}${CONFIG.endpoints.onTheAirSeries}?api_key=${API_KEY}&language=fr-FR`;
+    const data = await this.fetchData(url);
+    return data?.results || [];
+  }
+
+  // Découvrir des films par genre
+  static async getMoviesByGenre(genreId) {
+    const url = `${BASE_URL}${CONFIG.endpoints.discoverMovies}?api_key=${API_KEY}&language=fr-FR&with_genres=${genreId}&sort_by=popularity.desc`;
+    const data = await this.fetchData(url);
+    return data?.results || [];
+  }
+
+  // Découvrir des séries par genre
+  static async getSeriesByGenre(genreId) {
+    const url = `${BASE_URL}${CONFIG.endpoints.discoverSeries}?api_key=${API_KEY}&language=fr-FR&with_genres=${genreId}&sort_by=popularity.desc`;
+    const data = await this.fetchData(url);
+    return data?.results || [];
   }
 
   // Fonction utilitaire pour construire l'URL d'image

@@ -13,10 +13,10 @@ export class HeroManager {
       console.log("🎬 Chargement du hero banner...");
       
       const data = await TMDBAPI.getTrendingMovies();
-      if (data.results && data.results.length > 0) {
+      if (data && data.length > 0) {
         // Prendre un film aléatoirement parmi les 5 premiers
-        const randomIndex = Math.floor(Math.random() * Math.min(5, data.results.length));
-        const movie = data.results[randomIndex];
+        const randomIndex = Math.floor(Math.random() * Math.min(5, data.length));
+        const movie = data[randomIndex];
         
         await this.displayHeroBanner(movie);
         await this.loadHeroVideo(movie.id);
