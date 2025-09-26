@@ -76,4 +76,4 @@ Le projet utilise l'API **The Movie Database (TMDB)** pour récupérer :
 - Évaluations et critiques
 
 
-## MALGONNE Léo B3 DEV 3
+## MALGONNE Léo B3 DEV 3 🎓
