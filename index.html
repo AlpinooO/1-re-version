@@ -22,7 +22,7 @@
     
     <div class="search-container">
       <input type="text" id="search-input" placeholder="Rechercher...">
-  <button id="search-btn">🔍</button>
+  <button id="search-btn">Rechercher</button>
     </div>
     
     <div class="user-menu" id="user-menu">
@@ -40,8 +40,8 @@
             <span class="user-email" id="user-email">user@example.com</span>
           </div>
           <hr>
-          <a href="html/list.html" class="dropdown-item">📋 Mes Listes</a>
-          <button class="dropdown-item logout-btn" id="logout-btn">🚪 Déconnexion</button>
+          <a href="html/list.html" class="dropdown-item">Mes Listes</a>
+          <button class="dropdown-item logout-btn" id="logout-btn">Déconnexion</button>
         </div>
       </div>
     </div>
@@ -54,15 +54,15 @@
   </header>
   
   <nav class="mobile-nav" id="mobile-nav">
-    <a href="index.html" class="active">🏠 Accueil</a>
-    <a href="html/movies.html">🎬 Films</a>
-    <a href="html/series.html">📺 Séries</a>
-    <a href="html/list.html" id="mobile-nav-lists">📋 Mes Listes</a>
-    <a href="html/about.html">ℹ️ À propos</a>
+    <a href="index.html" class="active">Accueil</a>
+    <a href="html/movies.html">Films</a>
+    <a href="html/series.html">Séries</a>
+    <a href="html/list.html" id="mobile-nav-lists">Mes Listes</a>
+    <a href="html/about.html">À propos</a>
     <hr>
     <div class="mobile-auth-buttons" id="mobile-auth-buttons">
-      <button class="btn-login mobile" id="mobile-btn-login">🔑 Connexion</button>
-      <button class="btn-register mobile" id="mobile-btn-register">📝 Inscription</button>
+      <button class="btn-login mobile" id="mobile-btn-login">Connexion</button>
+      <button class="btn-register mobile" id="mobile-btn-register">Inscription</button>
     </div>
     <div class="mobile-user-profile" id="mobile-user-profile" style="display: none;">
       <div class="mobile-user-info">
@@ -75,8 +75,8 @@
         </div>
       </div>
       <hr>
-      <a href="html/list.html" class="mobile-nav-item">📋 Mes Listes</a>
-      <button class="mobile-nav-item logout-btn" id="mobile-logout-btn">🚪 Déconnexion</button>
+      <a href="html/list.html" class="mobile-nav-item">Mes Listes</a>
+      <button class="mobile-nav-item logout-btn" id="mobile-logout-btn">Déconnexion</button>
     </div>
   </nav>
 
@@ -101,24 +101,54 @@
 <section class="strip" data-type="popular" data-category="movies">
   <h2>Populaire maintenant</h2>
   <div class="row-container">
-    <button class="scroll-btn left">◀</button>
+    <button class="scroll-btn left">&lt;</button>
     <div class="row films-row"></div>
-    <button class="scroll-btn right">▶</button>
+    <button class="scroll-btn right">&gt;</button>
   </div>
 </section>
 
     <section class="strip" data-type="popular" data-category="series">
       <h2>Nouveautés</h2>
       <div class="row-container">
-        <button class="scroll-btn left">◀</button>
+        <button class="scroll-btn left">&lt;</button>
         <div class="row series-row"></div>
-        <button class="scroll-btn right">▶</button>
+        <button class="scroll-btn right">&gt;</button>
       </div>
     </section>
   </main>
 
   <footer class="footer">
-  <p>© 2025 BlueFlix — Projet démonstration.</p>
+    <div class="footer-content">
+      <div class="footer-section">
+        <h4>BlueFlix</h4>
+        <p>Plateforme de streaming moderne inspirée des interfaces contemporaines. Interface élégante avec thème sombre et accents bleus.</p>
+      </div>
+      
+      <div class="footer-section">
+        <h4>Projet</h4>
+        <ul>
+          <li>Conception Frontend</li>
+          <li>EFREI Paris - 3ème année</li>
+          <li>1er Semestre 2025</li>
+          <li>Version 1.0</li>
+        </ul>
+      </div>
+      
+      <div class="footer-section">
+        <h4>Technologies</h4>
+        <ul>
+          <li>HTML5 & CSS3</li>
+          <li>JavaScript ES6+</li>
+          <li>API TMDB</li>
+          <li>Design Responsive</li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <p>© 2025 BlueFlix - Développé par <strong>MALGONNE Léo</strong></p>
+      <p class="footer-note">Projet au sein de l'EFREI, fait en cours de conception front-end</p>
+    </div>
   </footer>
 
 </div>
