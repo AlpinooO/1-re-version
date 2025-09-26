@@ -1,7 +1,3 @@
-// =========================
-// Search - Gestion de la recherche
-// =========================
-
 import { TMDBAPI } from './api.js';
 import { UIManager } from './ui.js';
 import { CONFIG } from './config.js';
@@ -13,20 +9,15 @@ export class SearchManager {
     this.searchTimeout = null;
     this.currentResults = [];
   }
-
-  // Initialiser la recherche
   init() {
     this.setupSearchEvents();
     this.setupModalSearch();
   }
-
-  // Configurer les événements de recherche
   setupSearchEvents() {
     const searchInput = document.getElementById("search-input");
     const searchButton = document.getElementById("search-btn");
     
     if (searchInput && searchButton) {
-      // Recherche en temps réel avec debounce
       searchInput.addEventListener("input", (e) => {
         clearTimeout(this.searchTimeout);
         this.searchTimeout = setTimeout(() => {
@@ -35,16 +26,12 @@ export class SearchManager {
           }
         }, 300);
       });
-
-      // Recherche au clic
       searchButton.addEventListener("click", () => {
         const query = searchInput.value.trim();
         if (query) {
           this.performSearch(query);
         }
       });
-
-      // Recherche à l'appui sur Entrée
       searchInput.addEventListener("keypress", (e) => {
         if (e.key === "Enter") {
           const query = searchInput.value.trim();
@@ -55,8 +42,6 @@ export class SearchManager {
       });
     }
   }
-
-  // Configurer la recherche dans les modals
   setupModalSearch() {
     const modalSearchInput = document.getElementById("modal-search-input");
     const modalSearchButton = document.getElementById("modal-search-btn");
@@ -88,8 +73,6 @@ export class SearchManager {
       });
     }
   }
-
-  // Effectuer une recherche standard
   async performSearch(query) {
     if (this.isSearching) return;
     
@@ -97,17 +80,13 @@ export class SearchManager {
     console.log("🔍 Recherche:", query);
 
     try {
-      // Afficher le modal de recherche s'il n'est pas ouvert
       this.showSearchModal();
       
-      // Afficher l'état de chargement
       this.showSearchLoading();
       
-      // Effectuer la recherche
       const data = await TMDBAPI.searchMulti(query);
       this.currentResults = data.results || [];
       
-      // Afficher les résultats
       this.displaySearchResults(this.currentResults, query);
       
     } catch (error) {
@@ -117,8 +96,6 @@ export class SearchManager {
       this.isSearching = false;
     }
   }
-
-  // Effectuer une recherche dans le modal
   async performModalSearch(query) {
     if (this.isSearching) return;
     
@@ -141,14 +118,11 @@ export class SearchManager {
     }
   }
 
-  // Afficher le modal de recherche
   showSearchModal() {
     const modal = document.getElementById("search-modal") || this.createSearchModal();
     modal.style.display = "flex";
     document.body.style.overflow = "hidden";
   }
-
-  // Créer le modal de recherche s'il n'existe pas
   createSearchModal() {
     const modal = document.createElement("div");
     modal.id = "search-modal";
@@ -170,7 +144,6 @@ export class SearchManager {
 
     document.body.appendChild(modal);
 
-    // Gérer la fermeture du modal
     const closeBtn = modal.querySelector(".modal-close");
     closeBtn.addEventListener("click", () => this.closeSearchModal());
     
@@ -180,13 +153,10 @@ export class SearchManager {
       }
     });
 
-    // Configurer la recherche dans ce nouveau modal
     this.setupModalSearch();
     
     return modal;
   }
-
-  // Fermer le modal de recherche
   closeSearchModal() {
     const modal = document.getElementById("search-modal");
     if (modal) {
@@ -194,8 +164,6 @@ export class SearchManager {
       document.body.style.overflow = "";
     }
   }
-
-  // Afficher l'état de chargement
   showSearchLoading() {
     const container = document.getElementById("search-results-container");
     if (container) {
@@ -212,7 +180,6 @@ export class SearchManager {
     this.showSearchLoading();
   }
 
-  // Afficher les résultats de recherche
   displaySearchResults(results, query) {
     const container = document.getElementById("search-results-container");
     if (!container) return;
@@ -228,7 +195,6 @@ export class SearchManager {
       return;
     }
 
-    // Créer l'en-tête des résultats
     const header = `
       <div class="search-results-header">
         <h3>Résultats pour "${query}"</h3>
@@ -236,7 +202,6 @@ export class SearchManager {
       </div>
     `;
 
-    // Créer la grille des résultats
     const resultsGrid = results.map(item => this.createSearchResultCard(item)).join('');
     
     container.innerHTML = header + `<div class="search-results-grid">${resultsGrid}</div>`;
@@ -246,7 +211,6 @@ export class SearchManager {
     this.displaySearchResults(results, query);
   }
 
-  // Créer une carte de résultat de recherche
   createSearchResultCard(item) {
     const type = item.media_type || (item.title ? 'movie' : 'tv');
     const title = item.title || item.name;
@@ -268,7 +232,6 @@ export class SearchManager {
     `;
   }
 
-  // Afficher les erreurs
   showSearchError() {
     const container = document.getElementById("search-results-container");
     if (container) {
@@ -286,7 +249,6 @@ export class SearchManager {
     this.showSearchError();
   }
 
-  // Vider les résultats de recherche
   clearResults() {
     const container = document.getElementById("search-results-container");
     if (container) {
@@ -294,8 +256,6 @@ export class SearchManager {
     }
     this.currentResults = [];
   }
-
-  // Filtrer les résultats par type
   filterResults(type) {
     if (type === 'all') {
       this.displaySearchResults(this.currentResults);

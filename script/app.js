@@ -1,27 +1,14 @@
-// ====================================
-//    APP.JS PRINCIPAL - MODULAIRE
-// ====================================
-
-// Importation des modules
 import { CONFIG } from './config.js';
 import { TMDBAPI } from './api.js';
 import { UIManager } from './ui.js';
 import { HeroManager } from './hero.js';
 import { SearchManager } from './search.js';
 import { ListsManager } from './lists.js';
-import './auth.js'; // Système d'authentification
+import './auth.js';
 
-// =========================
-// Variables globales
-// =========================
 let searchManager;
 let listsManager;
 
-// =========================
-// Fonctions principales de chargement
-// =========================
-
-// Charger la page d'accueil
 async function loadHome() {
   console.log("🎬 Chargement de la page d'accueil...");
 
@@ -48,7 +35,6 @@ async function loadHome() {
   await loadAdditionalSections();
 }
 
-// Charger une rangée de films
 async function loadMovieRow(container, type = 'popular') {
   // Si container est déjà la row, l'utiliser directement, sinon chercher .row à l'intérieur
   const row = container.classList?.contains('row') ? container : container.querySelector(".row");
@@ -96,7 +82,6 @@ async function loadMovieRow(container, type = 'popular') {
   }
 }
 
-// Charger une rangée de séries
 async function loadSeriesRow(container, type = 'popular') {
   // Si container est déjà la row, l'utiliser directement, sinon chercher .row à l'intérieur
   const row = container.classList?.contains('row') ? container : container.querySelector(".row");
@@ -151,7 +136,6 @@ async function loadSeriesRow(container, type = 'popular') {
   }
 }
 
-// Charger des films par genre
 async function loadMovieRowByGenre(container, genreKey) {
   const row = container.classList?.contains('row') ? container : container.querySelector(".row");
   if (!row) {
@@ -201,7 +185,6 @@ async function loadMovieRowByGenre(container, genreKey) {
   }
 }
 
-// Charger des séries par genre
 async function loadSeriesRowByGenre(container, genreKey) {
   const row = container.classList?.contains('row') ? container : container.querySelector(".row");
   if (!row) {
@@ -251,22 +234,18 @@ async function loadSeriesRowByGenre(container, genreKey) {
   }
 }
 
-// Charger les sections additionnelles
 async function loadAdditionalSections() {
-  // Charger les films les mieux notés
   const topRatedSection = document.querySelector(".top-rated-row");
   if (topRatedSection) {
     await loadMovieRow(topRatedSection, 'top_rated');
   }
 
-  // Charger les tendances
   const trendingSection = document.querySelector(".trending-row");
   if (trendingSection) {
     await loadMovieRow(trendingSection, 'trending');
   }
 }
 
-// Charger la page des films
 async function loadMovies() {
   console.log("🎬 Chargement de la page des films...");
   
@@ -292,7 +271,6 @@ async function loadMovies() {
   }
 }
 
-// Charger la page des séries
 async function loadSeries() {
   console.log("📺 Chargement de la page des séries...");
   
@@ -318,9 +296,6 @@ async function loadSeries() {
   }
 }
 
-// =========================
-// Modal de détails
-// =========================
 async function showDetailModal(id, type) {
   console.log(`🎬 Opening detail modal for ${type} ${id}`);
   
@@ -333,10 +308,9 @@ async function showDetailModal(id, type) {
     return;
   }
 
-  // Afficher la modale avec un indicateur de chargement
   modalBody.innerHTML = '<div class="loading">Chargement des détails...</div>';
   modal.classList.add('open');
-  modal.style.removeProperty('display'); // laisser le CSS décider (flex via .open)
+  modal.style.removeProperty('display');
   console.log('🟦 Modal open classes:', modal.className, 'inline display:', modal.style.display || '(none)');
   document.body.style.overflow = 'hidden';
 
@@ -344,14 +318,12 @@ async function showDetailModal(id, type) {
     let data;
     console.log(`🔍 Fetching ${type} details for ID:`, id);
     
-    // Récupération des détails de base
     if (type === 'movie') {
       data = await TMDBAPI.getMovieDetails(id);
     } else {
       data = await TMDBAPI.getSeriesDetails(id);
     }
 
-    // Lancer en parallèle crédits + vidéos
     const [creditsData, videosData] = await Promise.all([
       (type === 'movie' ? TMDBAPI.getMovieCredits(id) : TMDBAPI.getSeriesCredits(id)),
       (type === 'movie' ? TMDBAPI.getMovieVideos(id) : TMDBAPI.getSeriesVideos(id))
@@ -376,7 +348,6 @@ async function showDetailModal(id, type) {
       throw new Error('Données incomplètes reçues');
     }
 
-    // Créer le contenu de la modale
     console.log('🏗️ Generating modal HTML...');
   const posterUrl = data.poster_path ? TMDBAPI.getImageUrl(data.poster_path) : '';
   const backdropUrl = data.backdrop_path ? TMDBAPI.getImageUrl(data.backdrop_path, 'w1280') : '';
@@ -396,14 +367,12 @@ async function showDetailModal(id, type) {
     const rating = data.vote_average ? `${data.vote_average.toFixed(1)}/10` : 'N/A';
     const overview = data.overview || 'Aucun résumé disponible.';
 
-    // Sélection trailer (YouTube) si disponible
     let trailerKey = '';
     if (videosData?.results?.length) {
       const trailer = videosData.results.find(v => (v.type === 'Trailer' || v.type === 'Teaser') && v.site === 'YouTube') || videosData.results[0];
       trailerKey = trailer?.key || '';
     }
 
-    // Casting principal (max 8)
     let castHTML = '';
     const cast = creditsData?.cast?.slice(0, 8) || [];
     if (cast.length) {
@@ -413,7 +382,6 @@ async function showDetailModal(id, type) {
       }).join('')}</div></div>`;
     }
 
-    // Intégration listes (films + séries). Même storage (IDs distincts généralement). Si pas connecté => boutons inactifs visuels.
     const lm = window.listsManager || null;
     const authed = window.auth?.isLoggedIn?.() || false;
     const inFav = lm ? lm.isInList(id, 'favoris') : false;
@@ -431,7 +399,6 @@ async function showDetailModal(id, type) {
         <button class="action-btn close-modal">✖ Fermer</button>
       </div>`;
 
-  // Trailer direct si disponible (sinon poster)
   const posterTrailerWrapper = trailerKey ? `<div class="poster-trailer" data-key="${trailerKey}"></div>` : '';
 
     modalBody.innerHTML = `
@@ -458,10 +425,8 @@ async function showDetailModal(id, type) {
         </div>
       </div>`;
 
-    // Initialiser actions internes
     initModalDetailActions();
 
-    // Gestion du poster : ajouter listeners load/error pour debug et fallback
     const posterImgEl = modalBody.querySelector('.poster-image');
     if (posterImgEl) {
       posterImgEl.addEventListener('load', () => {
@@ -475,7 +440,6 @@ async function showDetailModal(id, type) {
       }, { once:true });
     }
 
-    // Trailer direct: injecter l'iframe immédiatement si présent
     if (trailerKey) {
       const slot = modalBody.querySelector('.poster-trailer');
       if (slot) {
@@ -505,12 +469,10 @@ async function showDetailModal(id, type) {
       }
     }
 
-    // Bouton play trailer
     const manualPlayBtn = modalBody.querySelector('.play-trailer');
     if (manualPlayBtn) {
       manualPlayBtn.addEventListener('click', () => {
         if (manualPlayBtn.classList.contains('active')) {
-          // Optionnel: ne pas retirer iframe pour maintenant
           return;
         }
         manualPlayBtn.classList.add('active');
@@ -519,7 +481,6 @@ async function showDetailModal(id, type) {
       });
     }
 
-    // Auto-affichage du trailer après 4.5s si présent et non déjà visible
     if (trailerKey) {
       const trailerWrapperEl = modalBody.querySelector('.trailer-wrapper');
       const playBtnEl = modalBody.querySelector('.play-trailer');
@@ -542,7 +503,6 @@ async function showDetailModal(id, type) {
     });
     console.log(`✅ Détails chargés pour: ${title}`);
 
-    // Fallback si le contenu ne s'affiche pas (hauteur nulle ou vide)
     const bodyRect = modalBody.getBoundingClientRect();
     if (!modalBody.innerHTML.trim() || bodyRect.height < 50) {
       console.warn('⚠️ Fallback modal activé (contenu vide ou trop petit)');
@@ -566,9 +526,6 @@ async function showDetailModal(id, type) {
   }
 }
 
-// =========================
-// Initialisation de la modale
-// =========================
 function initModal() {
   const modal = document.getElementById('modal');
   const closeBtn = document.querySelector('.modal-close');
@@ -578,10 +535,8 @@ function initModal() {
     return;
   }
 
-  // Fermer la modale avec le bouton X
   if (closeBtn) {
     closeBtn.addEventListener('click', () => {
-      // Nettoyage vidéo (supprimer iframe pour stopper lecture)
       const iframe = modal.querySelector('.poster-trailer iframe');
       if (iframe) {
         iframe.remove();
@@ -592,7 +547,6 @@ function initModal() {
     });
   }
 
-  // Fermer la modale en cliquant à côté
   modal.addEventListener('click', (e) => {
     if (e.target === modal) {
       const iframe = modal.querySelector('.poster-trailer iframe');
@@ -603,7 +557,6 @@ function initModal() {
     }
   });
 
-  // Fermer la modale avec la touche Escape
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && modal.style.display === 'block') {
       const iframe = modal.querySelector('.poster-trailer iframe');
@@ -617,9 +570,6 @@ function initModal() {
   console.log('✅ Modale initialisée');
 }
 
-// =========================
-// Actions internes de la modale de détails
-// =========================
 function initModalDetailActions() {
   const modal = document.getElementById('modal');
   const modalBody = document.querySelector('.modal-body');
@@ -630,7 +580,6 @@ function initModalDetailActions() {
   const dialog = modalBody.querySelector('.modal-detail');
   const lm = window.listsManager || null;
 
-  // Focus trap basique
   if (dialog) {
     const focusable = dialog.querySelectorAll('button, a, [tabindex]:not([tabindex="-1"])');
     const first = focusable[0];
@@ -641,11 +590,9 @@ function initModalDetailActions() {
         else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
       }
     });
-    // Focus initial
     setTimeout(() => first?.focus(), 50);
   }
 
-  // Gestion listes avec auth
   listButtons.forEach(btn => {
     btn.addEventListener('click', () => {
       const auth = window.auth;
@@ -674,7 +621,6 @@ function initModalDetailActions() {
       }
     });
   });
-  // Rafraîchir dynamiquement sur auth / update listes
   const refreshButtons = () => {
     const auth = window.auth;
     listButtons.forEach(btn => {
@@ -718,9 +664,6 @@ function initModalDetailActions() {
   }
 }
 
-// =========================
-// Navigation et détection de page
-// =========================
 function detectPageAndLoad() {
   const path = window.location.pathname;
   const page = path.split('/').pop() || 'index.html';
@@ -747,51 +690,36 @@ function detectPageAndLoad() {
   }
 }
 
-// =========================
-// Fonctions utilitaires globales (pour la compatibilité)
-// =========================
 window.showDetailModal = showDetailModal;
 window.showMovieDetail = showDetailModal;
 
-// Fonction pour la page des listes
 window.showMovieDetail = function(movieId) {
   showDetailModal(movieId, 'movie');
 };
 
-// =========================
-// Initialisation de l'application
-// =========================
 function initApp() {
   console.log("🚀 Initialisation de BlueFlix...");
   
-  // Initialiser les gestionnaires
   UIManager.initHamburgerMenu();
   UIManager.initScrollEffects();
   UIManager.initScrollButtons();
   
-  // Initialiser la modale
   initModal();
   
-  // Initialiser la recherche
   searchManager = new SearchManager();
   searchManager.init();
   
-  // Initialiser toujours ListsManager pour que la modale fonctionne sur toutes les pages
   listsManager = new ListsManager();
   listsManager.init();
   window.listsManager = listsManager;
   
-  // Initialiser les événements du hero
   HeroManager.initHeroEvents();
   
-  // Initialiser l'authentification - maintenant importé directement
   if (window.auth) {
     console.log("🔐 Système d'authentification détecté");
-    // Réinitialiser l'auth si nécessaire
     window.auth.reinitEventListeners();
   } else {
     console.warn("⚠️ Système d'authentification non trouvé - tentative de réinitialisation...");
-    // Essayer de réinitialiser après un court délai
     setTimeout(() => {
       if (window.auth) {
         console.log("🔐 Système d'authentification trouvé en différé");
@@ -802,7 +730,6 @@ function initApp() {
     }, 500);
   }
   
-  // Exposer les fonctions principales pour accès global (debug/compatibilité)
   window.loadHome = loadHome;
   window.loadMovies = loadMovies;
   window.loadSeries = loadSeries;
@@ -812,16 +739,12 @@ function initApp() {
   window.TMDBAPI = TMDBAPI;
   window.showDetailModal = showDetailModal;
   
-  // Détecter et charger le contenu de la page (APRÈS exposition des fonctions)
   detectPageAndLoad();
   
   console.log("✅ BlueFlix initialisé avec succès!");
   console.log("🔧 showDetailModal exposed:", typeof window.showDetailModal);
 }
 
-// =========================
-// Gestionnaire d'événements DOMContentLoaded
-// =========================
 document.addEventListener("DOMContentLoaded", initApp);
 
 // Export pour la compatibilité avec les autres modules

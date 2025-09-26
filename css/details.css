@@ -1,9 +1,4 @@
-﻿/* =========================
-   Modal Detail Components
-========================= */
-
-/* Styles pour la structure de modal créée dans app.js */
-.modal-detail {
+﻿.modal-detail {
   position: relative;
   width: 100%;
   min-height: 500px;
@@ -13,7 +8,6 @@
   display: block;
 }
 
-/* Override des anciens styles globaux .modal-detail (définis dans styles.css) quand utilisé dans #modal */
 #modal .modal-detail {
   position: relative !important;
   top: auto !important;
@@ -38,7 +32,6 @@
   filter: blur(1px);
 }
 
-/* Layout principal modale - version bandeau vidéo au-dessus */
 .modal-content-inner {
   position: relative;
   z-index: 10;
@@ -53,7 +46,6 @@
 @media (max-width: 900px) { .modal-content-inner { gap:1.75rem; } }
 @media (max-width: 768px) { .modal-content-inner { gap:1.25rem; padding:0 0 1.75rem; } }
 
-/* Bandeau vidéo horizontal pleine largeur */
 .modal-poster {
   width:100%;
   position:relative;
@@ -66,17 +58,13 @@
   isolation:isolate;
 }
 
-/* Wrapper trailer plein cadre */
 .modal-poster .poster-trailer { position:absolute; inset:0; display:flex; border-radius:inherit; overflow:hidden; background:#000; }
 .modal-poster .poster-trailer iframe { width:100%; height:100%; object-fit:cover; }
 
-/* Indicateur de chargement poster (optionnel) */
 .poster-image[data-pending="1"] { filter: blur(4px) brightness(.7); }
 .action-btn.play-trailer.active { box-shadow:0 0 0 2px rgba(255,255,255,0.4) inset; }
 
-/* Pas de recentrage nécessaire: bandeau toujours 100% */
 
-/* Image fallback quand pas de trailer */
 .modal-poster img { width:100%; height:100%; object-fit:cover; border-radius:inherit; box-shadow:0 25px 60px -15px rgba(0,0,0,0.8), 0 0 0 1px rgba(30,144,255,0.25); border:3px solid rgba(30,144,255,0.35); transition:transform .6s cubic-bezier(.25,.46,.45,.94), box-shadow .4s; }
 
 .modal-poster img:hover { transform:translateY(-4px) scale(1.015); box-shadow:0 35px 80px -20px rgba(0,0,0,0.85), 0 0 0 2px rgba(30,144,255,0.5); }
@@ -186,7 +174,6 @@
   font-size: 1.1rem;
 }
 
-/* Skeleton */
 .skeleton {
   background: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.12) 50%, rgba(255,255,255,0.05) 75%);
   background-size: 200% 100%;
@@ -206,7 +193,6 @@
 .skeleton-line.w30 { width:30%; }
 .skeleton-line.w90 { width:90%; }
 
-/* Actions */
 .modal-actions {
   display:flex;
   flex-wrap:wrap;
@@ -253,12 +239,10 @@
 .action-btn:active { transform: translateY(-1px); box-shadow: 0 6px 18px -4px rgba(30,144,255,0.55); }
 .action-btn.external-link { text-decoration:none; }
 
-/* Variantes spécifiques */
 .action-btn.add-to-list { --btn-accent: var(--blue-400); }
 .action-btn.play-trailer { --btn-accent: #ff3d71; }
 .action-btn.close-modal { --btn-accent: #ff5f56; }
 
-/* États actifs listes */
 .action-btn.active { background: linear-gradient(145deg, var(--blue-500), var(--blue-600)); color:#fff; border-color: var(--blue-300); }
 .action-btn.list-seen.active { background: linear-gradient(145deg, #25b66f, #198754); border-color:#25b66f; }
 .action-btn.list-watch.active { background: linear-gradient(145deg, #ffb347, #ff9800); border-color:#ffb347; }
@@ -421,7 +405,6 @@
   font-size: 1.2rem;
 }
 
-/* Grille des acteurs */
 .cast-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
@@ -497,9 +480,6 @@
   }
 }
 
-/* =========================
-   User Lists Actions
-========================= */
 .user-lists-actions {
   display: flex;
   gap: 1rem;

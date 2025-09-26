@@ -1,15 +1,9 @@
-﻿/* =========================
-   Page des listes
-========================= */
-.list-page {
+﻿.list-page {
   background: linear-gradient(135deg, var(--bg) 0%, var(--bg-secondary) 50%, var(--blue-800) 100%);
   min-height: 100vh;
   padding-top: 80px;
 }
 
-/* =========================
-   Message de connexion requise
-========================= */
 .login-required {
   display: flex;
   justify-content: center;
@@ -42,9 +36,6 @@
   line-height: 1.6;
 }
 
-/* =========================
-   Container des listes
-========================= */
 .lists-container {
   padding: 2rem;
   max-width: 1400px;
@@ -68,9 +59,6 @@
   font-size: 1.1rem;
 }
 
-/* =========================
-   Onglets
-========================= */
 .tabs-container {
   display: flex;
   justify-content: center;
@@ -126,9 +114,6 @@
   color: var(--bg);
 }
 
-/* =========================
-   Contenu des onglets
-========================= */
 .tab-content {
   display: none;
 }
@@ -160,9 +145,6 @@
   font-size: 1rem;
 }
 
-/* =========================
-   Grille des films
-========================= */
 .movies-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -272,9 +254,6 @@
   border-color: var(--error);
 }
 
-/* =========================
-   Liste vide
-========================= */
 .empty-list {
   text-align: center;
   padding: 3rem 2rem;
@@ -317,9 +296,6 @@
   box-shadow: var(--card-shadow-hover);
 }
 
-/* =========================
-   User Lists Actions (pour les modals)
-========================= */
 .user-lists-actions {
   display: flex;
   gap: 0.5rem;
@@ -361,7 +337,6 @@
   font-size: 1rem;
 }
 
-/* Animations et transitions supplémentaires */
 .movies-grid .movie-item {
   animation: slideInUp 0.3s ease;
 }
@@ -377,9 +352,6 @@
   }
 }
 
-/* =========================
-   Responsive Design
-========================= */
 @media (max-width: 768px) {
   .list-page {
     padding-top: 70px;

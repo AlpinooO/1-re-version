@@ -1,8 +1,4 @@
-/* ====================================
-   STYLES MODULAIRES - BlueFlix
-==================================== */
-
-/* Importation des modules CSS */
+ 
 @import url('variables.css');
 @import url('base.css');
 @import url('navigation.css');
@@ -12,12 +8,7 @@
 @import url('details.css');
 @import url('list.css');
 
-/* Styles spécifiques restants pour la recherche et animations */
-
-
-/* =========================
-   Reset / Base
-========================= */
+ 
 * {
   margin: 0;
   padding: 0;
@@ -74,18 +65,14 @@ img {
   object-fit: cover;
 }
 
-/* =========================
-   Layout
-========================= */
+ 
 .site {
   display: flex;
   flex-direction: column;
   min-height: 100%;
 }
 
-/* =========================
-   Container Responsive
-========================= */
+ 
 .container {
   flex: 1;
   padding: 1rem;
@@ -104,9 +91,7 @@ img {
   }
 }
 
-/* =========================
-   Topbar Responsive
-========================= */
+ 
 .topbar {
   position: sticky;
   top: 0;
@@ -147,7 +132,7 @@ img {
   color: var(--blue-400);
 }
 
-/* Navigation desktop */
+ 
 .desktop-nav {
   display: none;
   gap: 2rem;
@@ -175,7 +160,7 @@ img {
   transform: scale(1.05);
 }
 
-/* Menu hamburger */
+ 
 .hamburger {
   display: flex;
   flex-direction: column;
@@ -212,7 +197,7 @@ img {
   transform: rotate(-45deg) translate(7px, -7px);
 }
 
-/* Navigation mobile */
+ 
 .mobile-nav {
   position: fixed;
   top: 0;
@@ -302,7 +287,7 @@ img {
   background: var(--blue-500);
 }
 
-/* Responsive breakpoints */
+ 
 @media (max-width: 480px) {
   .topbar {
     padding: 1rem 1rem;
@@ -384,9 +369,7 @@ img {
   }
 }
 
-/* =========================
-   Hero Responsive
-========================= */
+ 
 .hero {
   position: relative;
   min-height: 70vh;
@@ -580,7 +563,7 @@ img {
 
 
 
-/* Hero Background Video */
+ 
 .hero-background-video {
   position: absolute;
   top: 0;
@@ -595,12 +578,12 @@ img {
   transition: opacity 0.5s ease-in-out;
 }
 
-/* Masquer l'image de fond quand la vidéo est active */
+ 
 .hero:has(.hero-background-video)::before {
   opacity: 0;
 }
 
-/* Hero Background Video */
+ 
 .hero-background-video {
   position: absolute;
   top: 0;
@@ -615,7 +598,7 @@ img {
   transition: opacity 0.5s ease-in-out;
 }
 
-/* Masquer l'image de fond quand la vidéo est active */
+ 
 .hero:has(.hero-background-video)::before {
   opacity: 0;
 }
@@ -670,9 +653,7 @@ img {
   transform: translateY(-2px);
 }
 
-/* =========================
-   Rows Netflix Style Responsive
-========================= */
+ 
 .strip {
   padding: 2rem 1rem;
   position: relative;
@@ -758,9 +739,7 @@ img {
   display: none;
 }
 
-/* =========================
-   Cards Responsive
-========================= */
+ 
 .card {
   position: relative;
   flex: 0 0 auto;
@@ -829,7 +808,7 @@ img {
   opacity: 0.7;
 }
 
-/* Désactiver les effets hover sur mobile */
+ 
 @media (max-width: 767px) {
   .card:hover {
     transform: none;
@@ -851,9 +830,7 @@ img {
   }
 }
 
-/* =========================
-   Footer
-========================= */
+ 
 .footer {
   padding: 2rem;
   text-align: center;
@@ -863,11 +840,9 @@ img {
   background: #0a0f1a;
 }
 
-/* Modal styles moved to modals.css */
+ 
 
-/* =========================
-   Authentication Modals
-========================= */
+ 
 .auth-modal {
   position: fixed;
   top: 0;
@@ -1018,9 +993,7 @@ img {
   text-decoration: underline;
 }
 
-/* =========================
-   User Menu
-========================= */
+ 
 .user-menu {
   display: flex;
   align-items: center;
@@ -1150,7 +1123,7 @@ img {
   margin: 0.5rem 0;
 }
 
-/* Responsive pour les boutons d'auth */
+ 
 @media (max-width: 480px) {
   .auth-buttons {
     flex-direction: column;
@@ -1168,11 +1141,9 @@ img {
   }
 }
 
-/* Modal styles moved to modals.css and details.css */
+ 
 
-/* =========================
-   Search in Modal
-========================= */
+ 
 .modal-body .search-container {
   width: 100%;
   margin-bottom: 1rem;
@@ -1231,9 +1202,7 @@ img {
   transform: scale(1.05);
 }
 
-/* =========================
-   Enhanced Search Styles
-========================= */
+ 
 .search-loading {
   display: flex;
   flex-direction: column;
@@ -1316,7 +1285,7 @@ img {
   transform: scale(1.02);
 }
 
-/* Footer styles moved here */
+ 
 
 
 .row-container {
@@ -1481,7 +1450,7 @@ img {
   z-index: 2;
 }
 
-/* Effet de fondu spécial quand la vidéo joue */
+ 
 .modal-detail-header::before {
   content: '';
   position: absolute;
@@ -1500,7 +1469,7 @@ img {
   transition: opacity 0.8s ease-in-out;
 }
 
-/* Activer le fondu quand la vidéo est visible */
+ 
 .modal-detail-header.video-playing::before {
   opacity: 1;
 }
@@ -1608,7 +1577,7 @@ img {
   font-size: 1.2rem;
 }
 
-/* Grille des acteurs */
+ 
 .cast-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
@@ -1623,7 +1592,7 @@ img {
   }
 }
 
-/* Membre du casting */
+ 
 .cast-member {
   text-align: center;
   transition: var(--transition);
@@ -1633,7 +1602,7 @@ img {
   transform: translateY(-5px);
 }
 
-/* Photo de l'acteur */
+ 
 .cast-photo {
   width: 100%;
   height: 120px;
@@ -1657,7 +1626,7 @@ img {
   transform: scale(1.02);
 }
 
-/* Informations de l'acteur */
+ 
 .cast-info {
   padding: 0.25rem 0;
 }
@@ -1687,9 +1656,7 @@ img {
   }
 }
 
-/* =========================
-   User Lists Actions
-========================= */
+ 
 .user-lists-actions {
   display: flex;
   gap: 1rem;
@@ -1753,7 +1720,7 @@ img {
   transform: scale(1.1);
 }
 
-/* Animation pour les notifications */
+ 
 @keyframes slideInRight {
   from {
     transform: translateX(100%);
@@ -1905,9 +1872,7 @@ img {
   50% { opacity: 0.7; }
 }
 
-/* =========================
-   Loading Spinner
-========================= */
+ 
 .loading {
   display: inline-block;
   width: 40px;
@@ -1923,9 +1888,7 @@ img {
   100% { transform: rotate(360deg); }
 }
 
-/* =========================
-   Glow Effects
-========================= */
+ 
 .glow {
   box-shadow: 0 0 20px rgba(30,144,255,0.5);
 }
@@ -1934,9 +1897,7 @@ img {
   text-shadow: 0 0 10px rgba(30,144,255,0.6);
 }
 
-/* =========================
-   Utility Classes
-========================= */
+ 
 .fade-in {
   animation: fadeIn 0.8s ease-out;
 }
@@ -1961,9 +1922,7 @@ img {
   }
 }
 
-/* =========================
-   Mode Vidéo Agrandi (Fallback)
-========================= */
+ 
 .modal-detail.expanded {
   background: rgba(0, 0, 0, 0.98);
 }
@@ -2009,7 +1968,7 @@ img {
   box-shadow: 0 10px 30px rgba(30,144,255,0.5);
 }
 
-/* Responsive mode agrandi */
+ 
 @media (max-width: 768px) {
   .modal-detail-content.expanded {
     width: 100vw;
@@ -2022,13 +1981,13 @@ img {
   }
 }
 
-/* Styles spécifiques pour la page des listes */
+ 
 .list-page {
   background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
   min-height: 100vh;
 }
 
-/* Message de connexion requise */
+ 
 .login-required {
   display: flex;
   justify-content: center;
@@ -2059,7 +2018,7 @@ img {
   font-size: 1.1rem;
 }
 
-/* Container des listes */
+ 
 .lists-container {
   padding: 2rem;
   max-width: 1400px;
@@ -2082,7 +2041,7 @@ img {
   font-size: 1.1rem;
 }
 
-/* Onglets */
+ 
 .tabs-container {
   display: flex;
   justify-content: center;
@@ -2130,7 +2089,7 @@ img {
   background: rgba(255, 255, 255, 0.3);
 }
 
-/* Contenu des onglets */
+ 
 .tab-content {
   display: none;
 }
@@ -2156,7 +2115,7 @@ img {
   font-size: 1rem;
 }
 
-/* Grille des films */
+ 
 .movies-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -2246,7 +2205,7 @@ img {
   border-color: #ff4757;
 }
 
-/* Message liste vide */
+ 
 .empty-list {
   text-align: center;
   padding: 4rem 2rem;
@@ -2282,13 +2241,13 @@ img {
   transform: translateY(-2px);
 }
 
-/* Animation */
+ 
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Navigation conditionnelle pour les listes */
+ 
 .nav-lists-item {
   position: relative;
   transition: var(--transition-fast);
@@ -2309,7 +2268,7 @@ img {
   opacity: 0.7;
 }
 
-/* Style pour les liens protégés */
+ 
 .protected-link {
   opacity: 0.6;
   cursor: not-allowed;
@@ -2321,7 +2280,7 @@ img {
   transform: none !important;
 }
 
-/* Tooltip pour les liens protégés */
+ 
 .protected-link::before {
   content: 'Connexion requise';
   position: absolute;

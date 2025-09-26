@@ -1,5 +1,3 @@
-// Système d'authentification complet pour BlueFlix
-
 class AuthSystem {
   constructor() {
     this.currentUser = this.getCurrentUser();
@@ -13,7 +11,6 @@ class AuthSystem {
     this.updateUI();
     this.updateNavigation();
     
-    // Debug : vérifier les éléments trouvés
     console.log("🔍 Debug - Éléments trouvés :");
     console.log("- Bouton login:", !!document.getElementById('btn-login'));
     console.log("- Bouton register:", !!document.getElementById('btn-register')); 
@@ -25,7 +22,6 @@ class AuthSystem {
     console.log("- Lien vers login:", !!document.getElementById('show-login'));
   }
 
-  // Gestion des utilisateurs
   getUsers() {
     return JSON.parse(localStorage.getItem('blueflix_users') || '{}');
   }
@@ -55,9 +51,7 @@ class AuthSystem {
     this.dispatchAuthEvent(false);
   }
 
-  // Configuration des event listeners
   setupEventListeners() {
-    // Boutons d'ouverture des modals - supporter plusieurs IDs (desktop et mobile)
     const loginBtn = document.getElementById('login-btn') || document.getElementById('btn-login');
     const registerBtn = document.getElementById('register-btn') || document.getElementById('btn-register');
     const mobileLoginBtn = document.getElementById('mobile-btn-login');
@@ -84,7 +78,6 @@ class AuthSystem {
       console.warn("⚠️ Bouton d'inscription non trouvé");
     }
     
-    // Boutons mobiles
     if (mobileLoginBtn) {
       mobileLoginBtn.addEventListener('click', (e) => {
         console.log('🔓 Click sur bouton mobile login détecté');
@@ -102,14 +95,12 @@ class AuthSystem {
       console.log("🔗 Event listener ajouté au bouton mobile d'inscription");
     }
 
-    // Boutons de fermeture des modals
     const loginClose = document.getElementById('login-close');
     const registerClose = document.getElementById('register-close');
     
     if (loginClose) loginClose.addEventListener('click', () => this.hideLoginModal());
     if (registerClose) registerClose.addEventListener('click', () => this.hideRegisterModal());
 
-    // Liens de navigation entre les modals (dans le HTML statique)
     const showRegisterLink = document.getElementById('show-register');
     const showLoginLink = document.getElementById('show-login');
     
@@ -129,20 +120,17 @@ class AuthSystem {
       });
     }
 
-    // Formulaires
     const loginForm = document.getElementById('login-form');
     const registerForm = document.getElementById('register-form');
     
     if (loginForm) loginForm.addEventListener('submit', (e) => this.handleLogin(e));
     if (registerForm) registerForm.addEventListener('submit', (e) => this.handleRegister(e));
 
-    // Boutons de déconnexion (desktop et mobile)
     const logoutBtn = document.getElementById('logout-btn');
     const mobileLogoutBtn = document.getElementById('mobile-logout-btn');
     if (logoutBtn) logoutBtn.addEventListener('click', () => this.logout());
     if (mobileLogoutBtn) mobileLogoutBtn.addEventListener('click', () => this.logout());
 
-    // Fermeture des modals en cliquant à l'extérieur
     window.addEventListener('click', (e) => {
       const loginModal = document.getElementById('login-modal');
       const registerModal = document.getElementById('register-modal');
@@ -152,12 +140,11 @@ class AuthSystem {
     });
   }
 
-  // Gestion des modals
   showLoginModal() {
     const modal = document.getElementById('login-modal');
     if (modal) {
       modal.classList.add('show');
-      modal.style.display = 'flex'; // Force l'affichage
+      modal.style.display = 'flex';
       this.populateLoginForm();
       console.log("🔓 Modal de connexion ouverte");
     } else {
@@ -177,7 +164,7 @@ class AuthSystem {
     const modal = document.getElementById('register-modal');
     if (modal) {
       modal.classList.add('show');
-      modal.style.display = 'flex'; // Force l'affichage
+      modal.style.display = 'flex';
       this.populateRegisterForm();
       console.log("📝 Modal d'inscription ouverte");
     } else {
@@ -193,7 +180,6 @@ class AuthSystem {
     }
   }
 
-  // Population des formulaires
   populateLoginForm() {
     const form = document.getElementById('login-form');
     if (!form.innerHTML.trim()) {
@@ -213,7 +199,6 @@ class AuthSystem {
         </div>
       `;
       
-      // Ajouter l'event listener pour le lien de navigation
       const switchLink = document.getElementById('switch-to-register');
       if (switchLink) {
         switchLink.addEventListener('click', (e) => {
@@ -252,7 +237,6 @@ class AuthSystem {
         </div>
       `;
       
-      // Ajouter l'event listener pour le lien de navigation
       const switchLink = document.getElementById('switch-to-login');
       if (switchLink) {
         switchLink.addEventListener('click', (e) => {
@@ -264,7 +248,6 @@ class AuthSystem {
     }
   }
 
-  // Population du contenu des headers
   populateModalHeaders() {
     const loginHeader = document.querySelector('#login-modal .auth-modal-header');
     const registerHeader = document.querySelector('#register-modal .auth-modal-header');
@@ -284,7 +267,6 @@ class AuthSystem {
     }
   }
 
-  // Gestion de la connexion
   handleLogin(e) {
     e.preventDefault();
     const formData = new FormData(e.target);
@@ -304,7 +286,6 @@ class AuthSystem {
     }
   }
 
-  // Gestion de l'inscription
   handleRegister(e) {
     e.preventDefault();
     const formData = new FormData(e.target);
@@ -316,7 +297,6 @@ class AuthSystem {
     const users = this.getUsers();
     const errorElement = document.getElementById('register-error');
     
-    // Validation
     if (!name || !email || !password) {
       errorElement.textContent = 'Tous les champs sont obligatoires.';
       return;
@@ -337,7 +317,6 @@ class AuthSystem {
       return;
     }
     
-    // Création du compte
     users[email] = {
       name: name,
       email: email,
@@ -357,18 +336,14 @@ class AuthSystem {
     errorElement.textContent = '';
   }
 
-  // Mise à jour de l'interface utilisateur
   updateUI() {
-    // Éléments desktop
     const authButtons = document.getElementById('auth-buttons');
     const userProfile = document.getElementById('user-profile');
     
-    // Éléments mobile
     const mobileAuthButtons = document.getElementById('mobile-auth-buttons');
     const mobileUserProfile = document.getElementById('mobile-user-profile');
     
     if (this.currentUser) {
-      // Utilisateur connecté - Version desktop
       if (authButtons) {
         authButtons.innerHTML = '';
         authButtons.style.display = 'none';
@@ -378,7 +353,6 @@ class AuthSystem {
         this.updateUserProfile();
       }
       
-      // Utilisateur connecté - Version mobile
       if (mobileAuthButtons) {
         mobileAuthButtons.style.display = 'none';
       }
@@ -387,7 +361,6 @@ class AuthSystem {
         this.updateMobileUserProfile();
       }
     } else {
-      // Utilisateur non connecté - Version desktop
       if (authButtons) {
         authButtons.innerHTML = `
           <button class="btn-login" id="btn-login">Connexion</button>
@@ -395,7 +368,6 @@ class AuthSystem {
         `;
         authButtons.style.display = 'flex';
         
-        // Rebinder les événements
         const newLoginBtn = document.getElementById('btn-login');
         const newRegisterBtn = document.getElementById('btn-register');
         if (newLoginBtn) newLoginBtn.addEventListener('click', () => this.showLoginModal());
@@ -405,7 +377,6 @@ class AuthSystem {
         userProfile.style.display = 'none';
       }
       
-      // Utilisateur non connecté - Version mobile  
       if (mobileAuthButtons) {
         mobileAuthButtons.innerHTML = `
           <button class="btn-login mobile" id="mobile-btn-login">🔑 Connexion</button>
@@ -413,7 +384,6 @@ class AuthSystem {
         `;
         mobileAuthButtons.style.display = 'block';
         
-        // Rebinder les événements mobiles
         const newMobileLoginBtn = document.getElementById('mobile-btn-login');
         const newMobileRegisterBtn = document.getElementById('mobile-btn-register');
         if (newMobileLoginBtn) newMobileLoginBtn.addEventListener('click', () => this.showLoginModal());
@@ -427,7 +397,6 @@ class AuthSystem {
     this.populateModalHeaders();
   }
 
-  // Mise à jour du profil utilisateur
   updateUserProfile() {
     if (!this.currentUser) return;
     
@@ -443,7 +412,6 @@ class AuthSystem {
     if (userInitial) userInitial.textContent = user.name.charAt(0).toUpperCase();
   }
 
-  // Mise à jour du profil utilisateur mobile
   updateMobileUserProfile() {
     if (!this.currentUser) return;
     
@@ -459,18 +427,15 @@ class AuthSystem {
     if (mobileUserInitial) mobileUserInitial.textContent = user.name.charAt(0).toUpperCase();
   }
 
-  // Mise à jour de la navigation
   updateNavigation() {
     const navLinks = document.querySelectorAll('[href="html/list.html"], [href="../html/list.html"]');
     
     navLinks.forEach(link => {
       if (this.currentUser) {
-        // Utilisateur connecté - accès autorisé
         link.classList.remove('protected-link');
         link.style.pointerEvents = '';
         link.onclick = null;
       } else {
-        // Utilisateur non connecté - protéger le lien
         link.classList.add('protected-link');
         link.onclick = (e) => {
           e.preventDefault();
@@ -481,7 +446,6 @@ class AuthSystem {
     });
   }
 
-  // Gestion des listes utilisateur
   getUserLists() {
     if (!this.currentUser) return { favoris: [], aVoir: [], dejaVu: [] };
     const users = this.getUsers();
@@ -506,13 +470,11 @@ class AuthSystem {
     const movieIdNum = parseInt(movieId);
     
     if (lists[listName].includes(movieIdNum)) {
-      // Retirer de la liste
       lists[listName] = lists[listName].filter(id => id !== movieIdNum);
       this.updateUserLists(lists);
       this.showNotification(`Retiré de ${this.getListDisplayName(listName)}`, 'info');
       return false;
     } else {
-      // Ajouter à la liste
       lists[listName].push(movieIdNum);
       this.updateUserLists(lists);
       this.showNotification(`Ajouté à ${this.getListDisplayName(listName)}`, 'success');
@@ -534,13 +496,10 @@ class AuthSystem {
     return names[listName] || listName;
   }
 
-  // Notifications
   showNotification(message, type = 'info') {
-    // Supprimer les notifications existantes
     const existing = document.querySelector('.notification');
     if (existing) existing.remove();
     
-    // Créer la nouvelle notification
     const notification = document.createElement('div');
     notification.className = `notification notification-${type}`;
     notification.innerHTML = `
@@ -548,20 +507,16 @@ class AuthSystem {
       <button onclick="this.parentElement.remove()">×</button>
     `;
     
-    // Ajouter au DOM
     document.body.appendChild(notification);
     
-    // Animation d'entrée
     setTimeout(() => notification.classList.add('show'), 100);
     
-    // Suppression automatique
     setTimeout(() => {
       notification.classList.remove('show');
       setTimeout(() => notification.remove(), 300);
     }, 4000);
   }
 
-  // Événements personnalisés
   dispatchAuthEvent(isLoggedIn) {
     window.dispatchEvent(new CustomEvent('authStateChanged', {
       detail: { isLoggedIn, user: this.currentUser }
@@ -574,7 +529,6 @@ class AuthSystem {
     }));
   }
 
-  // Méthode publique pour réinitialiser les event listeners
   reinitEventListeners() {
     console.log("🔄 Réinitialisation des event listeners...");
     this.setupEventListeners();
@@ -591,7 +545,6 @@ class AuthSystem {
   }
 }
 
-// Initialiser le système d'authentification
 function initAuth() {
   if (window.auth) {
     console.log("🔐 AuthSystem déjà initialisé");
@@ -601,7 +554,6 @@ function initAuth() {
   console.log("🔐 Initialisation du système d'authentification...");
   window.auth = new AuthSystem();
   
-  // Fonctions globales pour le debug
   window.testLogin = () => window.auth.showLoginModal();
   window.testRegister = () => window.auth.showRegisterModal();
   window.testAuth = () => {
@@ -616,10 +568,8 @@ function initAuth() {
   return window.auth;
 }
 
-// Initialiser immédiatement
 initAuth();
 
-// Réinitialiser si le DOM change
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
@@ -630,7 +580,6 @@ if (document.readyState === 'loading') {
     }, 200);
   });
 } else {
-  // DOM déjà chargé
   setTimeout(() => {
     if (window.auth) {
       window.auth.updateUI();
@@ -639,7 +588,6 @@ if (document.readyState === 'loading') {
   }, 200);
 }
 
-// Styles CSS pour les notifications (à ajouter au CSS)
 if (!document.getElementById('auth-notification-styles')) {
   const style = document.createElement('style');
   style.id = 'auth-notification-styles';

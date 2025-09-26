@@ -1,30 +1,19 @@
-// =========================
-// Configuration et constantes
-// =========================
-
 export const API_KEY = "e4b90327227c88daac14c0bd0c1f93cd";
 export const BASE_URL = "https://api.themoviedb.org/3";
 export const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500";
 
-// Configuration pour l'affichage des films
 export const CONFIG = {
   itemsPerPage: 20,
-  heroVideoDelay: 4500, // 4.5 secondes
+  heroVideoDelay: 4500,
   notificationDuration: 3000,
-  
-  // API Configuration
   TMDB_API_KEY: API_KEY,
   TMDB_BASE_URL: BASE_URL,
   TMDB_IMAGE_URL: IMAGE_BASE_URL,
-  
-  // Messages d'erreur
   messages: {
     fetchError: "Erreur lors du chargement des données",
     noResults: "Aucun résultat trouvé",
     loginRequired: "Vous devez être connecté pour effectuer cette action"
   },
-  
-  // Endpoints API
   endpoints: {
     popularMovies: "/movie/popular",
     popularSeries: "/tv/popular",
@@ -42,8 +31,6 @@ export const CONFIG = {
     movieCredits: "/movie/{id}/credits",
     movieVideos: "/movie/{id}/videos"
   },
-  
-  // IDs des genres TMDB
   movieGenres: {
     action: 28,
     adventure: 12,
@@ -58,9 +45,8 @@ export const CONFIG = {
     mystery: 9648,
     scifi: 878
   },
-  
   seriesGenres: {
-    action: 10759, // Action & Adventure
+    action: 10759,
     animation: 16,
     comedy: 35,
     crime: 80,
@@ -69,6 +55,6 @@ export const CONFIG = {
     family: 10751,
     kids: 10762,
     mystery: 9648,
-    scifi: 10765 // Sci-Fi & Fantasy
+    scifi: 10765
   }
 };

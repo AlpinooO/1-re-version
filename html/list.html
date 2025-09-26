@@ -12,7 +12,6 @@
   <header class="topbar">
     <a href="../index.html" class="brand">Blue<span class="accent">Flix</span></a>
     
-    <!-- Navigation desktop -->
     <nav class="nav desktop-nav">
       <a href="../index.html">Accueil</a>
       <a href="../html/movies.html">Films</a>
@@ -26,15 +25,11 @@
       <button id="search-btn">🔍</button>
     </div>
     
-    <!-- Menu utilisateur -->
     <div class="user-menu" id="user-menu">
-      <!-- Boutons pour utilisateurs non connectés -->
       <div class="auth-buttons" id="auth-buttons">
         <button class="btn-login" id="btn-login">Connexion</button>
         <button class="btn-register" id="btn-register">Inscription</button>
       </div>
-      
-      <!-- Menu pour utilisateurs connectés -->
       <div class="user-profile" id="user-profile" style="display: none;">
         <div class="user-avatar" id="user-avatar">
           <span id="user-initial">U</span>
@@ -52,7 +47,6 @@
       </div>
     </div>
     
-    <!-- Menu hamburger pour mobile -->
     <button class="hamburger" id="hamburger">
       <span></span>
       <span></span>
@@ -60,7 +54,6 @@
     </button>
   </header>
   
-  <!-- Menu mobile -->
   <nav class="mobile-nav" id="mobile-nav">
     <a href="../index.html">🏠 Accueil</a>
     <a href="../html/movies.html">🎬 Films</a>
@@ -68,12 +61,10 @@
     <a href="../html/list.html" class="active">📋 Mes Listes</a>
     <a href="../html/about.html">ℹ️ À propos</a>
     <hr>
-    <!-- Boutons auth pour mobile -->
     <div class="mobile-auth-buttons" id="mobile-auth-buttons">
       <button class="btn-login mobile" id="mobile-btn-login">🔑 Connexion</button>
       <button class="btn-register mobile" id="mobile-btn-register">📝 Inscription</button>
     </div>
-    <!-- Profil utilisateur pour mobile -->
     <div class="mobile-user-profile" id="mobile-user-profile" style="display: none;">
       <div class="mobile-user-info">
         <div class="mobile-user-avatar">
@@ -92,7 +83,6 @@
   </nav>
 
   <main class="container">
-    <!-- Message pour utilisateurs non connectés -->
     <div class="login-required" id="login-required">
       <div class="login-required-content">
         <h2>🔐 Connexion requise</h2>
@@ -101,29 +91,22 @@
         <button class="btn-register" onclick="document.getElementById('btn-register').click()">Créer un compte</button>
       </div>
     </div>
-
-    <!-- Contenu des listes pour utilisateurs connectés -->
     <div class="lists-container" id="lists-container" style="display: none;">
       <div class="lists-header">
         <h1>Mes Listes</h1>
         <p>Gérez vos films et séries favoris</p>
       </div>
-
-      <!-- Onglets des listes -->
       <div class="tabs-container">
         <button class="tab-btn active" data-tab="favoris">❤️ Favoris <span class="count" id="favoris-count">0</span></button>
         <button class="tab-btn" data-tab="aVoir">📋 À regarder <span class="count" id="aVoir-count">0</span></button>
         <button class="tab-btn" data-tab="dejaVu">✅ Déjà vu <span class="count" id="dejaVu-count">0</span></button>
       </div>
-
-      <!-- Contenu des onglets -->
       <div class="tab-content active" id="favoris-content">
         <div class="list-header">
           <h2>❤️ Mes Favoris</h2>
           <p>Vos films et séries préférés</p>
         </div>
         <div class="movies-grid" id="favoris-grid">
-          <!-- Contenu généré par JavaScript -->
         </div>
       </div>
 
@@ -133,7 +116,6 @@
           <p>Films et séries que vous voulez découvrir</p>
         </div>
         <div class="movies-grid" id="aVoir-grid">
-          <!-- Contenu généré par JavaScript -->
         </div>
       </div>
 
@@ -143,7 +125,6 @@
           <p>Films et séries que vous avez regardés</p>
         </div>
         <div class="movies-grid" id="dejaVu-grid">
-          <!-- Contenu généré par JavaScript -->
         </div>
       </div>
     </div>
@@ -154,16 +135,14 @@
   </footer>
 
 </div>
-
-<!-- Modal de détails -->
+ 
 <div id="modal" class="modal">
   <div class="modal-content">
     <span class="modal-close">&times;</span>
     <div class="modal-body"></div>
   </div>
 </div>
-
-<!-- Modals d'authentification -->
+ 
 <div id="login-modal" class="auth-modal">
   <div class="auth-modal-content">
     <span class="auth-modal-close" id="login-close">&times;</span>

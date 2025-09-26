@@ -1,7 +1,3 @@
-// =========================
-// Lists - Gestion des listes utilisateur
-// =========================
-
 import { TMDBAPI } from './api.js';
 import { UIManager } from './ui.js';
 
@@ -11,7 +7,6 @@ export class ListsManager {
     this.currentUser = null;
   }
 
-  // Initialiser les listes
   init() {
     this.currentUser = this.getCurrentUser();
     this.checkAuthStatus();
@@ -23,22 +18,18 @@ export class ListsManager {
     }
   }
 
-  // Obtenir l'utilisateur actuel
   getCurrentUser() {
     return localStorage.getItem('blueflix_current_user');
   }
 
-  // Obtenir tous les utilisateurs
   getUsers() {
     return JSON.parse(localStorage.getItem('blueflix_users') || '{}');
   }
 
-  // Sauvegarder les utilisateurs
   setUsers(users) {
     localStorage.setItem('blueflix_users', JSON.stringify(users));
   }
 
-  // Vérifier le statut d'authentification
   checkAuthStatus() {
     const loginRequired = document.getElementById('login-required');
     const listsContainer = document.getElementById('lists-container');
@@ -52,7 +43,6 @@ export class ListsManager {
     }
   }
 
-  // Initialiser les onglets
   initTabs() {
     const tabButtons = document.querySelectorAll('.tab-btn');
     
@@ -64,16 +54,13 @@ export class ListsManager {
     });
   }
 
-  // Changer d'onglet
   switchTab(tabName) {
-    // Mettre à jour les boutons
     document.querySelectorAll('.tab-btn').forEach(btn => {
       btn.classList.remove('active');
     });
     const activeBtn = document.querySelector(`[data-tab="${tabName}"]`);
     if (activeBtn) activeBtn.classList.add('active');
     
-    // Mettre à jour le contenu
     document.querySelectorAll('.tab-content').forEach(content => {
       content.classList.remove('active');
     });
@@ -81,21 +68,18 @@ export class ListsManager {
     if (activeContent) activeContent.classList.add('active');
   }
 
-  // Charger les listes de l'utilisateur
   loadUserLists() {
     if (!this.currentUser) return;
     
     const users = this.getUsers();
     const userLists = users[this.currentUser]?.lists || {};
     
-    // Charger chaque liste
     Object.keys(userLists).forEach(listName => {
       this.loadList(listName, userLists[listName]);
       this.updateListCount(listName, userLists[listName].length);
     });
   }
 
-  // Charger une liste spécifique
   async loadList(listName, movieIds) {
     const container = document.getElementById(`${listName}-grid`);
     if (!container) return;
@@ -124,7 +108,6 @@ export class ListsManager {
     }
   }
 
-  // Afficher les films dans une liste
   renderMoviesList(container, movies, listName) {
     if (movies.length === 0) {
       this.showEmptyList(container, listName);
@@ -157,7 +140,6 @@ export class ListsManager {
     container.innerHTML = moviesHTML;
   }
 
-  // Afficher un message pour une liste vide
   showEmptyList(container, listName) {
     const messages = {
       favoris: {
@@ -189,7 +171,6 @@ export class ListsManager {
     `;
   }
 
-  // Mettre à jour le compteur d'une liste
   updateListCount(listName, count) {
     const countElement = document.getElementById(`${listName}-count`);
     if (countElement) {
@@ -197,7 +178,6 @@ export class ListsManager {
     }
   }
 
-  // Ajouter un film à une liste
   addToList(movieId, listName) {
     if (!this.currentUser) {
       UIManager.showNotification('Vous devez être connecté pour ajouter des films à vos listes.', 'warning');
@@ -214,28 +194,22 @@ export class ListsManager {
       userLists[listName] = [];
     }
     
-    // Vérifier si le film n'est pas déjà dans la liste
     if (userLists[listName].includes(movieId)) {
       UIManager.showNotification('Ce film est déjà dans votre liste.', 'info');
       return false;
     }
     
-    // Ajouter le film
     userLists[listName].push(movieId);
     
-    // Sauvegarder
     this.setUsers(users);
     
-    // Notification
     UIManager.showNotification(`Film ajouté à "${this.getListDisplayName(listName)}"`, 'success');
     
-    // Émettre un événement
     this.dispatchListUpdate();
     
     return true;
   }
 
-  // Retirer un film d'une liste
   removeFromList(movieId, listName) {
     if (!confirm('Êtes-vous sûr de vouloir retirer ce film de votre liste ?')) {
       return;
@@ -247,24 +221,18 @@ export class ListsManager {
     const userLists = users[this.currentUser]?.lists;
     if (!userLists) return;
     
-    // Retirer le film de la liste
     userLists[listName] = userLists[listName].filter(id => id !== movieId);
     
-    // Sauvegarder
     this.setUsers(users);
     
-    // Recharger la liste
     this.loadList(listName, userLists[listName]);
     this.updateListCount(listName, userLists[listName].length);
     
-    // Notification
     UIManager.showNotification(`Film retiré de votre liste "${this.getListDisplayName(listName)}"`, 'success');
     
-    // Émettre un événement
     this.dispatchListUpdate();
   }
 
-  // Vérifier si un film est dans une liste
   isInList(movieId, listName) {
     if (!this.currentUser) return false;
     
@@ -275,7 +243,6 @@ export class ListsManager {
     return userLists[listName].includes(movieId);
   }
 
-  // Obtenir le nom d'affichage d'une liste
   getListDisplayName(listName) {
     const names = {
       favoris: 'Favoris',
@@ -285,14 +252,11 @@ export class ListsManager {
     return names[listName] || listName;
   }
 
-  // Configurer les événements
   setupEventListeners() {
-    // Event listener pour les mises à jour en temps réel
     window.addEventListener('userListsUpdated', () => {
       this.loadUserLists();
     });
     
-    // Event listener pour la connexion/déconnexion
     window.addEventListener('authStateChanged', (e) => {
       this.currentUser = this.getCurrentUser();
       this.checkAuthStatus();
@@ -302,12 +266,10 @@ export class ListsManager {
     });
   }
 
-  // Émettre un événement de mise à jour des listes
   dispatchListUpdate() {
     window.dispatchEvent(new CustomEvent('userListsUpdated'));
   }
 
-  // Obtenir les statistiques des listes
   getListStats() {
     if (!this.currentUser) return null;
     

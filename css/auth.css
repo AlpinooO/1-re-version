@@ -1,7 +1,4 @@
-﻿/* =========================
-   Authentication Modals
-========================= */
-.auth-modal {
+﻿.auth-modal {
   position: fixed;
   top: 0;
   left: 0;
@@ -151,9 +148,6 @@
   text-decoration: underline;
 }
 
-/* =========================
-   User Menu
-========================= */
 .user-menu {
   display: flex;
   align-items: center;
@@ -283,7 +277,6 @@
   margin: 0.5rem 0;
 }
 
-/* Responsive pour les boutons d'auth */
 @media (max-width: 480px) {
   .auth-buttons {
     flex-direction: column;
@@ -301,7 +294,6 @@
   }
 }
 
-/* Styles pour les messages d'erreur */
 .form-error {
   color: #ff4757;
   background: rgba(255, 71, 87, 0.1);

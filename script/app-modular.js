@@ -1,8 +1,3 @@
-// ====================================
-//    APP.JS PRINCIPAL - MODULAIRE
-// ====================================
-
-// Importation des modules
 import { CONFIG } from './config.js';
 import { TMDBAPI } from './api.js';
 import { UIManager } from './ui.js';
@@ -10,17 +5,9 @@ import { HeroManager } from './hero.js';
 import { SearchManager } from './search.js';
 import { ListsManager } from './lists.js';
 
-// =========================
-// Variables globales
-// =========================
 let searchManager;
 let listsManager;
 
-// =========================
-// Fonctions principales de chargement
-// =========================
-
-// Charger la page d'accueil
 async function loadHome() {
   console.log("🎬 Chargement de la page d'accueil...");
 
@@ -47,7 +34,6 @@ async function loadHome() {
   await loadAdditionalSections();
 }
 
-// Charger une rangée de films
 async function loadMovieRow(container, type = 'popular') {
   const row = container.querySelector(".row");
   if (!row) return;
@@ -87,7 +73,6 @@ async function loadMovieRow(container, type = 'popular') {
   }
 }
 
-// Charger une rangée de séries
 async function loadSeriesRow(container) {
   const row = container.querySelector(".row");
   if (!row) return;
@@ -113,22 +98,18 @@ async function loadSeriesRow(container) {
   }
 }
 
-// Charger les sections additionnelles
 async function loadAdditionalSections() {
-  // Charger les films les mieux notés
   const topRatedSection = document.querySelector(".top-rated-row");
   if (topRatedSection) {
     await loadMovieRow(topRatedSection, 'top_rated');
   }
 
-  // Charger les tendances
   const trendingSection = document.querySelector(".trending-row");
   if (trendingSection) {
     await loadMovieRow(trendingSection, 'trending');
   }
 }
 
-// Charger la page des films
 async function loadMovies() {
   console.log("🎬 Chargement de la page des films...");
   
@@ -140,7 +121,6 @@ async function loadMovies() {
   }
 }
 
-// Charger la page des séries
 async function loadSeries() {
   console.log("📺 Chargement de la page des séries...");
   
@@ -151,18 +131,11 @@ async function loadSeries() {
   }
 }
 
-// =========================
-// Modal de détails (placeholder - sera étendue)
-// =========================
 function showDetailModal(id, type) {
   console.log(`🎬 Opening detail modal for ${type} ${id}`);
-  // Cette fonction sera étendue ou remplacée par un module modal dédié
   UIManager.showNotification(`Ouverture des détails du ${type === 'movie' ? 'film' : 'série'} ${id}`, 'info');
 }
 
-// =========================
-// Navigation et détection de page
-// =========================
 function detectPageAndLoad() {
   const path = window.location.pathname;
   const page = path.split('/').pop() || 'index.html';
@@ -189,51 +162,36 @@ function detectPageAndLoad() {
   }
 }
 
-// =========================
-// Fonctions utilitaires globales (pour la compatibilité)
-// =========================
 window.showDetailModal = showDetailModal;
 window.showMovieDetail = showDetailModal;
 
-// Fonction pour la page des listes
 window.showMovieDetail = function(movieId) {
   showDetailModal(movieId, 'movie');
 };
 
-// =========================
-// Initialisation de l'application
-// =========================
 function initApp() {
   console.log("🚀 Initialisation de BlueFlix...");
   
-  // Initialiser les gestionnaires
   UIManager.initHamburgerMenu();
   UIManager.initScrollEffects();
   UIManager.initScrollButtons();
   
-  // Initialiser la recherche
   searchManager = new SearchManager();
   searchManager.init();
   
-  // Initialiser les listes (si on est sur la page des listes)
   if (window.location.pathname.includes('list.html')) {
     listsManager = new ListsManager();
     listsManager.init();
     window.listsManager = listsManager; // Pour l'accès global
   }
   
-  // Initialiser les événements du hero
   HeroManager.initHeroEvents();
   
-  // Détecter et charger le contenu de la page
   detectPageAndLoad();
   
   console.log("✅ BlueFlix initialisé avec succès!");
 }
 
-// =========================
-// Gestionnaire d'événements DOMContentLoaded
-// =========================
 document.addEventListener("DOMContentLoaded", initApp);
 
 // Export pour la compatibilité avec les autres modules
