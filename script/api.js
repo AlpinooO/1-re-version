@@ -23,6 +23,23 @@ export class TMDBAPI {
     }
   }
 
+  // Fetch spécifique pour les détails (retourne directement l'objet)
+  static async fetchDetailsData(url) {
+    try {
+      console.log("🎬 Fetching details:", url);
+      const res = await fetch(url);
+      if (!res.ok) {
+        throw new Error(`API request failed: ${res.status} ${res.statusText}`);
+      }
+      const data = await res.json();
+      console.log("✅ Details received:", data.title || data.name || 'Unknown');
+      return data;
+    } catch (error) {
+      console.error("❌ Details fetch error:", error);
+      return null;
+    }
+  }
+
   // Films populaires
   static async getPopularMovies() {
     const url = `${BASE_URL}${CONFIG.endpoints.popularMovies}?api_key=${API_KEY}&language=fr-FR`;
@@ -61,13 +78,15 @@ export class TMDBAPI {
   // Détails d'un film
   static async getMovieDetails(id) {
     const url = `${BASE_URL}${CONFIG.endpoints.movieDetails}${id}?api_key=${API_KEY}&language=fr-FR`;
-    return this.fetchData(url);
+    console.log('🔗 Movie details URL:', url);
+    return this.fetchDetailsData(url);
   }
 
   // Détails d'une série
   static async getSeriesDetails(id) {
     const url = `${BASE_URL}${CONFIG.endpoints.seriesDetails}${id}?api_key=${API_KEY}&language=fr-FR`;
-    return this.fetchData(url);
+    console.log('🔗 Series details URL:', url);
+    return this.fetchDetailsData(url);
   }
 
   // Casting d'un film
@@ -79,6 +98,28 @@ export class TMDBAPI {
   // Vidéos/bandes-annonces d'un film
   static async getMovieVideos(id) {
     const url = `${BASE_URL}${CONFIG.endpoints.movieVideos.replace('{id}', id)}?api_key=${API_KEY}&language=fr-FR`;
+    return this.fetchData(url);
+  }
+
+  // Casting d'une série
+  static async getSeriesCredits(id) {
+    if (!CONFIG.endpoints.seriesCredits) {
+      // Fallback convention: /tv/{id}/credits
+      const url = `${BASE_URL}tv/${id}/credits?api_key=${API_KEY}&language=fr-FR`;
+      return this.fetchData(url);
+    }
+    const url = `${BASE_URL}${CONFIG.endpoints.seriesCredits.replace('{id}', id)}?api_key=${API_KEY}&language=fr-FR`;
+    return this.fetchData(url);
+  }
+
+  // Vidéos/bandes-annonces d'une série
+  static async getSeriesVideos(id) {
+    if (!CONFIG.endpoints.seriesVideos) {
+      // Fallback convention: /tv/{id}/videos
+      const url = `${BASE_URL}tv/${id}/videos?api_key=${API_KEY}&language=fr-FR`;
+      return this.fetchData(url);
+    }
+    const url = `${BASE_URL}${CONFIG.endpoints.seriesVideos.replace('{id}', id)}?api_key=${API_KEY}&language=fr-FR`;
     return this.fetchData(url);
   }
 

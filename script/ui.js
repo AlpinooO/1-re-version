@@ -62,12 +62,30 @@ export class UIManager {
     const imageUrl = TMDBAPI.getImageUrl(item.poster_path);
     console.log("🖼️ Image URL:", imageUrl);
     
-    card.innerHTML = `<img src="${imageUrl}" alt="${
-      type === "movie" ? item.title : item.name
-    }">`;
+    const label = type === 'movie' ? (item.title || 'Film') : (item.name || 'Série');
+    card.setAttribute('role', 'button');
+    card.setAttribute('tabindex', '0');
+    card.setAttribute('aria-label', `Voir les détails de ${label}`);
+    card.innerHTML = `<img src="${imageUrl}" alt="${label}">`;
 
     // Ajouter l'événement de clic pour ouvrir la popup
-    card.addEventListener("click", () => UIManager.showDetailModal(item.id, type));
+    const openDetails = () => {
+      console.log(`🎬 Card clicked: ${type} ${item.id}`);
+      if (window.showDetailModal) {
+        window.showDetailModal(item.id, type);
+      } else {
+        console.error("❌ showDetailModal not available, showing notification fallback");
+        UIManager.showNotification(`Détails ${type === 'movie' ? 'du film' : 'de la série'}: ${item.title || item.name}`, 'info');
+      }
+    };
+
+    card.addEventListener("click", openDetails);
+    card.addEventListener("keypress", (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        openDetails();
+      }
+    });
 
     return card;
   }
@@ -173,16 +191,7 @@ export class UIManager {
     });
   }
 
-  // Appel vers la fonction principale showDetailModal
-  static showDetailModal(id, type) {
-    console.log(`🎬 Opening detail modal for ${type} ${id}`);
-    // Appeler la fonction principale si disponible
-    if (window.showDetailModal) {
-      window.showDetailModal(id, type);
-    } else {
-      console.error("❌ window.showDetailModal non disponible");
-    }
-  }
+  // Removed duplicate showDetailModal method - now called directly from card click events
 
   // Utilitaires pour manipuler les classes CSS
   static addClass(element, className) {
