@@ -1,19 +1,20 @@
+// Gestion des recherches et modale associée
 import { TMDBAPI } from './api.js';
 import { UIManager } from './ui.js';
 import { CONFIG } from './config.js';
 
-export class SearchManager {
+export class SearchManager { // Orchestrateur recherche UI
   
-  constructor() {
+  constructor() { // État interne recherche
     this.isSearching = false;
     this.searchTimeout = null;
     this.currentResults = [];
   }
-  init() {
+  init() { // Initialise écouteurs
     this.setupSearchEvents();
     this.setupModalSearch();
   }
-  setupSearchEvents() {
+  setupSearchEvents() { // Barre de recherche principale
     const searchInput = document.getElementById("search-input");
     const searchButton = document.getElementById("search-btn");
     
@@ -42,7 +43,7 @@ export class SearchManager {
       });
     }
   }
-  setupModalSearch() {
+  setupModalSearch() { // Recherche dans la modale
     const modalSearchInput = document.getElementById("modal-search-input");
     const modalSearchButton = document.getElementById("modal-search-btn");
     
@@ -73,11 +74,11 @@ export class SearchManager {
       });
     }
   }
-  async performSearch(query) {
+  async performSearch(query) { // Lance une recherche principale
     if (this.isSearching) return;
     
     this.isSearching = true;
-    console.log("🔍 Recherche:", query);
+    
 
     try {
       this.showSearchModal();
@@ -90,17 +91,17 @@ export class SearchManager {
       this.displaySearchResults(this.currentResults, query);
       
     } catch (error) {
-      console.error("❌ Erreur de recherche:", error);
+      
       this.showSearchError();
     } finally {
       this.isSearching = false;
     }
   }
-  async performModalSearch(query) {
+  async performModalSearch(query) { // Recherche via champ modale
     if (this.isSearching) return;
     
     this.isSearching = true;
-    console.log("🔍 Recherche modale:", query);
+    
 
     try {
       this.showModalSearchLoading();
@@ -111,19 +112,19 @@ export class SearchManager {
       this.displayModalSearchResults(this.currentResults, query);
       
     } catch (error) {
-      console.error("❌ Erreur de recherche modale:", error);
+      
       this.showModalSearchError();
     } finally {
       this.isSearching = false;
     }
   }
 
-  showSearchModal() {
+  showSearchModal() { // Affiche/instancie la modale
     const modal = document.getElementById("search-modal") || this.createSearchModal();
     modal.style.display = "flex";
     document.body.style.overflow = "hidden";
   }
-  createSearchModal() {
+  createSearchModal() { // Construit DOM modale recherche
     const modal = document.createElement("div");
     modal.id = "search-modal";
     modal.className = "modal";
@@ -157,14 +158,14 @@ export class SearchManager {
     
     return modal;
   }
-  closeSearchModal() {
+  closeSearchModal() { // Ferme la modale
     const modal = document.getElementById("search-modal");
     if (modal) {
       modal.style.display = "none";
       document.body.style.overflow = "";
     }
   }
-  showSearchLoading() {
+  showSearchLoading() { // Placeholder chargement
     const container = document.getElementById("search-results-container");
     if (container) {
       container.innerHTML = `
@@ -176,11 +177,11 @@ export class SearchManager {
     }
   }
 
-  showModalSearchLoading() {
+  showModalSearchLoading() { // Alias modale
     this.showSearchLoading();
   }
 
-  displaySearchResults(results, query) {
+  displaySearchResults(results, query) { // Injection résultats
     const container = document.getElementById("search-results-container");
     if (!container) return;
 
@@ -207,11 +208,11 @@ export class SearchManager {
     container.innerHTML = header + `<div class="search-results-grid">${resultsGrid}</div>`;
   }
 
-  displayModalSearchResults(results, query) {
+  displayModalSearchResults(results, query) { // Alias modale
     this.displaySearchResults(results, query);
   }
 
-  createSearchResultCard(item) {
+  createSearchResultCard(item) { // Carte résultat unique
     const type = item.media_type || (item.title ? 'movie' : 'tv');
     const title = item.title || item.name;
     const date = item.release_date || item.first_air_date;
@@ -232,7 +233,7 @@ export class SearchManager {
     `;
   }
 
-  showSearchError() {
+  showSearchError() { // Affiche erreur recherche
     const container = document.getElementById("search-results-container");
     if (container) {
       container.innerHTML = `
@@ -245,18 +246,18 @@ export class SearchManager {
     }
   }
 
-  showModalSearchError() {
+  showModalSearchError() { // Alias modale
     this.showSearchError();
   }
 
-  clearResults() {
+  clearResults() { // Vide résultats
     const container = document.getElementById("search-results-container");
     if (container) {
       container.innerHTML = '';
     }
     this.currentResults = [];
   }
-  filterResults(type) {
+  filterResults(type) { // Filtre client
     if (type === 'all') {
       this.displaySearchResults(this.currentResults);
     } else {

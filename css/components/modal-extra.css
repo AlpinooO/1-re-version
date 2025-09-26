@@ -1,0 +1,262 @@
+/* =======================
+   MODAL EXTRA COMPONENT
+   ======================= */
+
+/* ===== Modal Detail Title ===== */
+.modal-detail-title {
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+  text-shadow: 2px 4px 20px rgba(0, 0, 0, 0.8);
+  background: linear-gradient(135deg, var(--text) 0%, var(--accent) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1.2;
+}
+
+/* ===== Modal Detail Body ===== */
+.modal-detail-body {
+  padding: 2rem;
+  overflow-y: auto;
+  max-height: 45vh;
+  background: linear-gradient(180deg, rgba(11, 20, 38, 0.95) 0%, rgba(11, 20, 38, 0.98) 100%);
+  scrollbar-width: thin;
+  scrollbar-color: var(--blue-500) transparent;
+  position: relative;
+  z-index: 5;
+  backdrop-filter: blur(20px);
+  border-radius: 15px 15px 0 0;
+  box-shadow: 0 -10px 30px rgba(30, 144, 255, 0.3);
+  border-top: 2px solid rgba(30, 144, 255, 0.4);
+  min-height: 300px;
+}
+
+.modal-detail-body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modal-detail-body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.modal-detail-body::-webkit-scrollbar-thumb {
+  background: var(--blue-500);
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+.modal-detail-body::-webkit-scrollbar-thumb:hover {
+  background: var(--blue-400);
+  background-clip: content-box;
+}
+
+/* ===== Modal Detail Info ===== */
+.modal-detail-info {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.modal-detail-info span {
+  color: var(--text-secondary);
+  background: linear-gradient(135deg, rgba(30, 144, 255, 0.2) 0%, rgba(0, 82, 163, 0.2) 100%);
+  padding: 0.8rem 1.5rem;
+  border-radius: 25px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border: 1px solid rgba(30, 144, 255, 0.3);
+  backdrop-filter: blur(10px);
+  transition: var(--transition-fast);
+}
+
+.modal-detail-info span:hover {
+  background: var(--gradient-primary);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.modal-detail-info .rating {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--blue-500) 100%);
+  color: #fff;
+  font-weight: 700;
+  box-shadow: 0 8px 20px rgba(30, 144, 255, 0.4);
+}
+
+/* ===== Modal Detail Overview ===== */
+.modal-detail-overview {
+  margin-bottom: 2rem;
+  line-height: 1.6;
+  font-size: 1.1rem;
+}
+
+/* ===== Modal Detail Cast ===== */
+.modal-detail-cast {
+  margin-bottom: 1.5rem;
+}
+
+.modal-detail-cast h3 {
+  color: var(--blue-400);
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+}
+
+/* ===== Modal Detail Actions ===== */
+.modal-detail-actions {
+  display: flex;
+  gap: 1.5rem;
+  margin: 2rem 0;
+  flex-wrap: wrap;
+}
+
+.modal-detail-play-btn,
+.modal-detail-back-btn,
+.modal-detail-fullscreen-btn {
+  background: var(--gradient-primary);
+  color: #fff;
+  border: none;
+  padding: 1rem 2.5rem;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: 0 10px 30px rgba(30, 144, 255, 0.4);
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.modal-detail-back-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+}
+
+.modal-detail-fullscreen-btn {
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.8) 0%, rgba(255, 165, 0, 0.8) 100%);
+  border: 2px solid rgba(255, 215, 0, 0.4);
+  box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+}
+
+.modal-detail-fullscreen-btn:hover {
+  background: linear-gradient(135deg, rgba(255, 215, 0, 1) 0%, rgba(255, 165, 0, 1) 100%);
+  transform: translateY(-3px);
+  box-shadow: 0 15px 40px rgba(255, 215, 0, 0.5);
+}
+
+.modal-detail-back-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: var(--accent);
+}
+
+.modal-detail-play-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.6s;
+}
+
+.modal-detail-play-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 40px rgba(30, 144, 255, 0.6);
+}
+
+.modal-detail-play-btn:hover::before {
+  left: 100%;
+}
+
+/* ===== Modal Detail Close ===== */
+.modal-detail-close {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  background: rgba(0, 0, 0, 0.8);
+  border: none;
+  color: #fff;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: var(--transition);
+  font-size: 1.5rem;
+  z-index: 20;
+  backdrop-filter: var(--blur);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-detail-close:hover {
+  background: var(--gradient-primary);
+  transform: scale(1.1) rotate(90deg);
+  box-shadow: 0 8px 25px rgba(30, 144, 255, 0.5);
+}
+
+/* ===== Expanded Mode ===== */
+.modal-detail.expanded {
+  background: rgba(0, 0, 0, 0.98);
+}
+
+.modal-detail-content.expanded {
+  width: 95vw;
+  height: 95vh;
+  max-width: none;
+  max-height: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-detail-content.expanded .modal-detail-header {
+  height: 70vh;
+}
+
+.modal-detail-video.expanded {
+  width: 100%;
+  height: 100%;
+}
+
+.exit-expanded-btn {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  background: rgba(11, 20, 38, 0.9);
+  color: #fff;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 25px;
+  font-size: 1rem;
+  cursor: pointer;
+  z-index: 10;
+  transition: var(--transition);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(30, 144, 255, 0.3);
+}
+
+.exit-expanded-btn:hover {
+  background: var(--gradient-primary);
+  transform: scale(1.05);
+  box-shadow: 0 10px 30px rgba(30, 144, 255, 0.5);
+}
+
+/* ===== Mobile Responsive ===== */
+@media (max-width: 768px) {
+  .modal-detail-content.expanded {
+    width: 100vw;
+    height: 100vh;
+    border-radius: 0;
+  }
+  
+  .modal-detail-content.expanded .modal-detail-header {
+    height: 75vh;
+  }
+}

@@ -1,9 +1,85 @@
+// Utilitaires UI génériques (notifications, cartes, effets)
 import { TMDBAPI } from './api.js';
 import { CONFIG } from './config.js';
 
-export class UIManager {
+export class UIManager { // Méthodes statiques d'UI
+  static initUserDropdown() { // Dropdown utilisateur accessible
+    const profile = document.getElementById('user-profile');
+    if (!profile) return;
+    const avatar = profile.querySelector('.user-avatar');
+    const dropdown = profile.querySelector('.user-dropdown');
+    if (!avatar || !dropdown) return;
+
+    // Retirer logique pure hover si besoin (CSS :hover reste un fallback visuel desktop)
+    avatar.setAttribute('role', 'button');
+    avatar.setAttribute('tabindex', '0');
+    avatar.setAttribute('aria-haspopup', 'true');
+    avatar.setAttribute('aria-expanded', 'false');
+    dropdown.setAttribute('aria-hidden', 'true');
+
+    const open = () => {
+      dropdown.classList.add('open');
+      avatar.setAttribute('aria-expanded', 'true');
+      dropdown.setAttribute('aria-hidden', 'false');
+      const firstFocusable = dropdown.querySelector('a, button');
+      if (firstFocusable) firstFocusable.focus({ preventScroll: true });
+      document.addEventListener('keydown', handleKey, true);
+      document.addEventListener('click', handleOutside, true);
+    };
+
+    const close = () => {
+      dropdown.classList.remove('open');
+      avatar.setAttribute('aria-expanded', 'false');
+      dropdown.setAttribute('aria-hidden', 'true');
+      avatar.focus({ preventScroll: true });
+      document.removeEventListener('keydown', handleKey, true);
+      document.removeEventListener('click', handleOutside, true);
+    };
+
+    const toggle = () => {
+      dropdown.classList.contains('open') ? close() : open();
+    };
+
+    const handleKey = (e) => {
+      if (e.key === 'Escape') {
+        close();
+      } else if (e.key === 'ArrowDown' && dropdown.classList.contains('open')) {
+        const items = [...dropdown.querySelectorAll('a, button')];
+        if (items.length) items[0].focus();
+      } else if (e.key === 'Tab' && dropdown.classList.contains('open')) {
+        const focusables = [...dropdown.querySelectorAll('a, button')];
+        if (!focusables.length) return;
+        const first = focusables[0];
+        const last = focusables[focusables.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    };
+
+    const handleOutside = (e) => {
+      if (!profile.contains(e.target)) {
+        close();
+      }
+    };
+
+    avatar.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggle();
+    });
+    avatar.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        toggle();
+      }
+    });
+  }
   
-  static initHamburgerMenu() {
+  static initHamburgerMenu() { // Menu mobile hamburger
     const hamburger = document.getElementById("hamburger");
     const mobileNav = document.getElementById("mobile-nav");
 
@@ -36,11 +112,11 @@ export class UIManager {
     }
   }
 
-  static createCard(item, type = "movie") {
-    console.log("🎨 Création carte pour:", item.title || item.name, "- Type:", type);
+  static createCard(item, type = "movie") { // Crée carte affiche
+    
     
     if (!item.poster_path) {
-      console.log("⚠️ Skipping item without poster:", item.title || item.name);
+      
       return null;
     }
     
@@ -51,7 +127,7 @@ export class UIManager {
     card.dataset.type = type;
     
     const imageUrl = TMDBAPI.getImageUrl(item.poster_path);
-    console.log("🖼️ Image URL:", imageUrl);
+    
     
     const label = type === 'movie' ? (item.title || 'Film') : (item.name || 'Série');
     card.setAttribute('role', 'button');
@@ -60,11 +136,11 @@ export class UIManager {
     card.innerHTML = `<img src="${imageUrl}" alt="${label}">`;
 
     const openDetails = () => {
-      console.log(`🎬 Card clicked: ${type} ${item.id}`);
+      
       if (window.showDetailModal) {
         window.showDetailModal(item.id, type);
       } else {
-        console.error("❌ showDetailModal not available, showing notification fallback");
+        
         UIManager.showNotification(`Détails ${type === 'movie' ? 'du film' : 'de la série'}: ${item.title || item.name}`, 'info');
       }
     };
@@ -80,20 +156,20 @@ export class UIManager {
     return card;
   }
 
-  static showLoading(container, message = "Chargement...") {
+  static showLoading(container, message = "Chargement...") { // Placeholder chargement
     if (container) {
       container.innerHTML = `<div class="loading">${message}</div>`;
     }
   }
 
-  static hideLoading(container) {
+  static hideLoading(container) { // Supprime loader
     const loading = container?.querySelector('.loading');
     if (loading) {
       loading.remove();
     }
   }
 
-  static showNotification(message, type = 'info', duration = CONFIG.notificationDuration) {
+  static showNotification(message, type = 'info', duration = CONFIG.notificationDuration) { // Popup notification
     const existingNotifications = document.querySelectorAll('.notification');
     existingNotifications.forEach(notif => notif.remove());
 
@@ -111,7 +187,7 @@ export class UIManager {
     }, duration);
   }
 
-  static initScrollEffects() {
+  static initScrollEffects() { // Effet barre scroll
     const topbar = document.querySelector('.topbar');
     if (!topbar) return;
 
@@ -130,7 +206,7 @@ export class UIManager {
     });
   }
 
-  static initScrollButtons() {
+  static initScrollButtons() { // Boutons scroll horizontal
     const rowContainers = document.querySelectorAll('.row-container');
     
     rowContainers.forEach(container => {
@@ -167,27 +243,27 @@ export class UIManager {
       updateButtons();
     });
   }
-  static addClass(element, className) {
+  static addClass(element, className) { // Ajoute classe
     if (element) element.classList.add(className);
   }
 
-  static removeClass(element, className) {
+  static removeClass(element, className) { // Retire classe
     if (element) element.classList.remove(className);
   }
 
-  static toggleClass(element, className) {
+  static toggleClass(element, className) { // Bascule classe
     if (element) element.classList.toggle(className);
   }
 
-  static clearContainer(container) {
+  static clearContainer(container) { // Vide container
     if (container) container.innerHTML = '';
   }
 
-  static appendToContainer(container, element) {
+  static appendToContainer(container, element) { // Ajoute élément
     if (container && element) container.appendChild(element);
   }
 
-  static showMessage(container, message) {
+  static showMessage(container, message) { // Message informatif
     if (container) {
       container.innerHTML = `
         <div class="info-message">
@@ -198,7 +274,7 @@ export class UIManager {
     }
   }
 
-  static showError(container, message = CONFIG.messages.fetchError) {
+  static showError(container, message = CONFIG.messages.fetchError) { // Message d'erreur réessayable
     if (container) {
       container.innerHTML = `
         <div class="error-message">

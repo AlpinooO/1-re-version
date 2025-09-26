@@ -1,80 +1,81 @@
+// Accès centralisé à l'API TMDB
 import { API_KEY, BASE_URL, CONFIG } from './config.js';
 
-export class TMDBAPI {
-  static async fetchData(url) {
+export class TMDBAPI { // Méthodes utilitaires pour requêtes TMDB
+  static async fetchData(url) { // Requête générique liste/collection
     try {
-      console.log("🌐 Fetching:", url);
+      
       const res = await fetch(url);
       if (!res.ok) {
         throw new Error(`API request failed: ${res.status} ${res.statusText}`);
       }
       const data = await res.json();
-      console.log("✅ Data received:", data.results?.length || 0, "items");
+      
       return data;
     } catch (error) {
-      console.error("❌ Fetch error:", error);
+      
       return { results: [] };
     }
   }
-  static async fetchDetailsData(url) {
+  static async fetchDetailsData(url) { // Requête pour détails uniques
     try {
-      console.log("🎬 Fetching details:", url);
+      
       const res = await fetch(url);
       if (!res.ok) {
         throw new Error(`API request failed: ${res.status} ${res.statusText}`);
       }
       const data = await res.json();
-      console.log("✅ Details received:", data.title || data.name || 'Unknown');
+      
       return data;
     } catch (error) {
-      console.error("❌ Details fetch error:", error);
+      
       return null;
     }
   }
-  static async getPopularMovies() {
+  static async getPopularMovies() { // Films populaires
     const url = `${BASE_URL}${CONFIG.endpoints.popularMovies}?api_key=${API_KEY}&language=fr-FR`;
-    console.log("🎬 Fetching popular movies from:", url);
+    
     const data = await this.fetchData(url);
     return data?.results || [];
   }
-  static async getPopularSeries() {
+  static async getPopularSeries() { // Séries populaires
     const url = `${BASE_URL}${CONFIG.endpoints.popularSeries}?api_key=${API_KEY}&language=fr-FR`;
     const data = await this.fetchData(url);
     return data?.results || [];
   }
-  static async getTopRatedMovies() {
+  static async getTopRatedMovies() { // Films mieux notés
     const url = `${BASE_URL}${CONFIG.endpoints.topRated}?api_key=${API_KEY}&language=fr-FR`;
     const data = await this.fetchData(url);
     return data?.results || [];
   }
-  static async getTrendingMovies() {
+  static async getTrendingMovies() { // Films tendance
     const url = `${BASE_URL}${CONFIG.endpoints.trendingMovies}?api_key=${API_KEY}&language=fr-FR`;
     const data = await this.fetchData(url);
     return data?.results || [];
   }
-  static async searchMulti(query) {
+  static async searchMulti(query) { // Recherche multi-ressources
     const url = `${BASE_URL}${CONFIG.endpoints.search}?api_key=${API_KEY}&language=fr-FR&query=${encodeURIComponent(query)}`;
     return this.fetchData(url);
   }
-  static async getMovieDetails(id) {
+  static async getMovieDetails(id) { // Détails film
     const url = `${BASE_URL}${CONFIG.endpoints.movieDetails}${id}?api_key=${API_KEY}&language=fr-FR`;
-    console.log('🔗 Movie details URL:', url);
+    
     return this.fetchDetailsData(url);
   }
-  static async getSeriesDetails(id) {
+  static async getSeriesDetails(id) { // Détails série
     const url = `${BASE_URL}${CONFIG.endpoints.seriesDetails}${id}?api_key=${API_KEY}&language=fr-FR`;
-    console.log('🔗 Series details URL:', url);
+    
     return this.fetchDetailsData(url);
   }
-  static async getMovieCredits(id) {
+  static async getMovieCredits(id) { // Casting film
     const url = `${BASE_URL}${CONFIG.endpoints.movieCredits.replace('{id}', id)}?api_key=${API_KEY}&language=fr-FR`;
     return this.fetchData(url);
   }
-  static async getMovieVideos(id) {
+  static async getMovieVideos(id) { // Vidéos film
     const url = `${BASE_URL}${CONFIG.endpoints.movieVideos.replace('{id}', id)}?api_key=${API_KEY}&language=fr-FR`;
     return this.fetchData(url);
   }
-  static async getSeriesCredits(id) {
+  static async getSeriesCredits(id) { // Casting série
     if (!CONFIG.endpoints.seriesCredits) {
       const url = `${BASE_URL}tv/${id}/credits?api_key=${API_KEY}&language=fr-FR`;
       return this.fetchData(url);
@@ -82,7 +83,7 @@ export class TMDBAPI {
     const url = `${BASE_URL}${CONFIG.endpoints.seriesCredits.replace('{id}', id)}?api_key=${API_KEY}&language=fr-FR`;
     return this.fetchData(url);
   }
-  static async getSeriesVideos(id) {
+  static async getSeriesVideos(id) { // Vidéos série
     if (!CONFIG.endpoints.seriesVideos) {
       const url = `${BASE_URL}tv/${id}/videos?api_key=${API_KEY}&language=fr-FR`;
       return this.fetchData(url);
@@ -90,41 +91,41 @@ export class TMDBAPI {
     const url = `${BASE_URL}${CONFIG.endpoints.seriesVideos.replace('{id}', id)}?api_key=${API_KEY}&language=fr-FR`;
     return this.fetchData(url);
   }
-  static async getTopRatedSeries() {
+  static async getTopRatedSeries() { // Séries mieux notées
     const url = `${BASE_URL}${CONFIG.endpoints.topRatedSeries}?api_key=${API_KEY}&language=fr-FR`;
     const data = await this.fetchData(url);
     return data?.results || [];
   }
-  static async getTrendingSeries() {
+  static async getTrendingSeries() { // Séries tendance
     const url = `${BASE_URL}${CONFIG.endpoints.trendingSeries}?api_key=${API_KEY}&language=fr-FR`;
     const data = await this.fetchData(url);
     return data?.results || [];
   }
-  static async getAiringTodaySeries() {
+  static async getAiringTodaySeries() { // Séries diffusées aujourd'hui
     const url = `${BASE_URL}${CONFIG.endpoints.airingTodaySeries}?api_key=${API_KEY}&language=fr-FR`;
     const data = await this.fetchData(url);
     return data?.results || [];
   }
-  static async getOnTheAirSeries() {
+  static async getOnTheAirSeries() { // Séries en cours de diffusion
     const url = `${BASE_URL}${CONFIG.endpoints.onTheAirSeries}?api_key=${API_KEY}&language=fr-FR`;
     const data = await this.fetchData(url);
     return data?.results || [];
   }
-  static async getMoviesByGenre(genreId) {
+  static async getMoviesByGenre(genreId) { // Films par genre
     const url = `${BASE_URL}${CONFIG.endpoints.discoverMovies}?api_key=${API_KEY}&language=fr-FR&with_genres=${genreId}&sort_by=popularity.desc`;
     const data = await this.fetchData(url);
     return data?.results || [];
   }
-  static async getSeriesByGenre(genreId) {
+  static async getSeriesByGenre(genreId) { // Séries par genre
     const url = `${BASE_URL}${CONFIG.endpoints.discoverSeries}?api_key=${API_KEY}&language=fr-FR&with_genres=${genreId}&sort_by=popularity.desc`;
     const data = await this.fetchData(url);
     return data?.results || [];
   }
-  static getImageUrl(path, size = 'w500') {
+  static getImageUrl(path, size = 'w500') { // Génère URL image
     if (!path) return 'https://via.placeholder.com/300x450/333/fff?text=Pas+d\'image';
     return `https://image.tmdb.org/t/p/${size}${path}`;
   }
-  static getYouTubeUrl(key) {
+  static getYouTubeUrl(key) { // Génère URL YouTube
     return `https://www.youtube.com/embed/${key}?autoplay=1&mute=1&controls=1&showinfo=0`;
   }
 }

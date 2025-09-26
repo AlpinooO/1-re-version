@@ -1,41 +1,33 @@
+// Système d'authentification localStorage + gestion listes
+import { UIManager } from './ui.js';
+
 class AuthSystem {
-  constructor() {
+  constructor() { // Initialise depuis localStorage
     this.currentUser = this.getCurrentUser();
     this.users = this.getUsers();
     this.init();
   }
 
-  init() {
-    console.log("🔐 Initialisation AuthSystem...");
+  init() { // Démarre écouteurs + UI
     this.setupEventListeners();
     this.updateUI();
     this.updateNavigation();
-    
-    console.log("🔍 Debug - Éléments trouvés :");
-    console.log("- Bouton login:", !!document.getElementById('btn-login'));
-    console.log("- Bouton register:", !!document.getElementById('btn-register')); 
-    console.log("- Modal login:", !!document.getElementById('login-modal'));
-    console.log("- Modal register:", !!document.getElementById('register-modal'));
-    console.log("- Form login:", !!document.getElementById('login-form'));
-    console.log("- Form register:", !!document.getElementById('register-form'));
-    console.log("- Lien vers register:", !!document.getElementById('show-register'));
-    console.log("- Lien vers login:", !!document.getElementById('show-login'));
   }
 
-  getUsers() {
+  getUsers() { // Retourne map utilisateurs
     return JSON.parse(localStorage.getItem('blueflix_users') || '{}');
   }
 
-  setUsers(users) {
+  setUsers(users) { // Persiste map utilisateurs
     localStorage.setItem('blueflix_users', JSON.stringify(users));
     this.users = users;
   }
 
-  getCurrentUser() {
+  getCurrentUser() { // Email utilisateur courant
     return localStorage.getItem('blueflix_current_user');
   }
 
-  setCurrentUser(email) {
+  setCurrentUser(email) { // Définit utilisateur connecté
     localStorage.setItem('blueflix_current_user', email);
     this.currentUser = email;
     this.updateUI();
@@ -43,7 +35,7 @@ class AuthSystem {
     this.dispatchAuthEvent(true);
   }
 
-  logout() {
+  logout() { // Déconnexion
     localStorage.removeItem('blueflix_current_user');
     this.currentUser = null;
     this.updateUI();
@@ -51,7 +43,7 @@ class AuthSystem {
     this.dispatchAuthEvent(false);
   }
 
-  setupEventListeners() {
+  setupEventListeners() { // Attache les handlers UI
     const loginBtn = document.getElementById('login-btn') || document.getElementById('btn-login');
     const registerBtn = document.getElementById('register-btn') || document.getElementById('btn-register');
     const mobileLoginBtn = document.getElementById('mobile-btn-login');
@@ -59,40 +51,32 @@ class AuthSystem {
     
     if (loginBtn) {
       loginBtn.addEventListener('click', (e) => {
-        console.log('🔓 Click sur bouton login détecté');
         e.preventDefault();
         this.showLoginModal();
       });
-      console.log("🔗 Event listener ajouté au bouton de connexion");
     } else {
-      console.warn("⚠️ Bouton de connexion non trouvé");
+      // bouton de connexion non trouvé
     }
     if (registerBtn) {
       registerBtn.addEventListener('click', (e) => {
-        console.log('📝 Click sur bouton register détecté');
         e.preventDefault();
         this.showRegisterModal();
       });
-      console.log("🔗 Event listener ajouté au bouton d'inscription");
     } else {
-      console.warn("⚠️ Bouton d'inscription non trouvé");
+      // bouton d'inscription non trouvé
     }
     
     if (mobileLoginBtn) {
       mobileLoginBtn.addEventListener('click', (e) => {
-        console.log('🔓 Click sur bouton mobile login détecté');
         e.preventDefault();
         this.showLoginModal();
       });
-      console.log("🔗 Event listener ajouté au bouton mobile de connexion");
     }
     if (mobileRegisterBtn) {
       mobileRegisterBtn.addEventListener('click', (e) => {
-        console.log('📝 Click sur bouton mobile register détecté');
         e.preventDefault();
         this.showRegisterModal();
       });
-      console.log("🔗 Event listener ajouté au bouton mobile d'inscription");
     }
 
     const loginClose = document.getElementById('login-close');
@@ -103,9 +87,18 @@ class AuthSystem {
 
     const showRegisterLink = document.getElementById('show-register');
     const showLoginLink = document.getElementById('show-login');
+    const switchToRegisterBtn = document.getElementById('switch-to-register');
     
     if (showRegisterLink) {
       showRegisterLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        this.hideLoginModal();
+        this.showRegisterModal();
+      });
+    }
+    
+    if (switchToRegisterBtn) {
+      switchToRegisterBtn.addEventListener('click', (e) => {
         e.preventDefault();
         this.hideLoginModal();
         this.showRegisterModal();
@@ -140,19 +133,18 @@ class AuthSystem {
     });
   }
 
-  showLoginModal() {
+  showLoginModal() { // Affiche modale login
     const modal = document.getElementById('login-modal');
     if (modal) {
       modal.classList.add('show');
       modal.style.display = 'flex';
       this.populateLoginForm();
-      console.log("🔓 Modal de connexion ouverte");
     } else {
-      console.error("❌ Modal de connexion non trouvée");
+      // modal de connexion non trouvée
     }
   }
 
-  hideLoginModal() {
+  hideLoginModal() { // Ferme modale login
     const modal = document.getElementById('login-modal');
     if (modal) {
       modal.classList.remove('show');
@@ -160,27 +152,26 @@ class AuthSystem {
     }
   }
 
-  showRegisterModal() {
+  showRegisterModal() { // Affiche modale inscription
     const modal = document.getElementById('register-modal');
     if (modal) {
       modal.classList.add('show');
       modal.style.display = 'flex';
       this.populateRegisterForm();
-      console.log("📝 Modal d'inscription ouverte");
     } else {
-      console.error("❌ Modal d'inscription non trouvée");
+      // modal d'inscription non trouvée
     }
   }
 
-  hideRegisterModal() {
+  hideRegisterModal() { // Ferme modale inscription
     const modal = document.getElementById('register-modal');
     if (modal) {
       modal.classList.remove('show');
-      modal.style.display = ''; // Retire le style inline
+      modal.style.display = '';
     }
   }
 
-  populateLoginForm() {
+  populateLoginForm() { // Injecte formulaire login
     const form = document.getElementById('login-form');
     if (!form.innerHTML.trim()) {
       form.innerHTML = `
@@ -196,9 +187,7 @@ class AuthSystem {
         <button type="submit" class="auth-btn">Se connecter</button>
         <div class="auth-switch">
           Pas de compte ? <a href="#" id="switch-to-register">S'inscrire</a>
-        </div>
-      `;
-      
+        </div>`;
       const switchLink = document.getElementById('switch-to-register');
       if (switchLink) {
         switchLink.addEventListener('click', (e) => {
@@ -210,7 +199,7 @@ class AuthSystem {
     }
   }
 
-  populateRegisterForm() {
+  populateRegisterForm() { // Injecte formulaire register
     const form = document.getElementById('register-form');
     if (!form.innerHTML.trim()) {
       form.innerHTML = `
@@ -234,9 +223,7 @@ class AuthSystem {
         <button type="submit" class="auth-btn">S'inscrire</button>
         <div class="auth-switch">
           Déjà un compte ? <a href="#" id="switch-to-login">Se connecter</a>
-        </div>
-      `;
-      
+        </div>`;
       const switchLink = document.getElementById('switch-to-login');
       if (switchLink) {
         switchLink.addEventListener('click', (e) => {
@@ -248,17 +235,15 @@ class AuthSystem {
     }
   }
 
-  populateModalHeaders() {
+  populateModalHeaders() { // Titres des modales
     const loginHeader = document.querySelector('#login-modal .auth-modal-header');
     const registerHeader = document.querySelector('#register-modal .auth-modal-header');
-    
     if (loginHeader && !loginHeader.innerHTML.trim()) {
       loginHeader.innerHTML = `
         <h2>Connexion</h2>
         <p>Accédez à vos listes personnalisées</p>
       `;
     }
-    
     if (registerHeader && !registerHeader.innerHTML.trim()) {
       registerHeader.innerHTML = `
         <h2>Inscription</h2>
@@ -266,8 +251,8 @@ class AuthSystem {
       `;
     }
   }
-
-  handleLogin(e) {
+   
+  handleLogin(e) { // Traitement connexion
     e.preventDefault();
     const formData = new FormData(e.target);
     const email = formData.get('email').trim().toLowerCase();
@@ -286,7 +271,7 @@ class AuthSystem {
     }
   }
 
-  handleRegister(e) {
+  handleRegister(e) { // Traitement inscription
     e.preventDefault();
     const formData = new FormData(e.target);
     const name = formData.get('name').trim();
@@ -336,7 +321,7 @@ class AuthSystem {
     errorElement.textContent = '';
   }
 
-  updateUI() {
+  updateUI() { // Met à jour boutons/auth UI
     const authButtons = document.getElementById('auth-buttons');
     const userProfile = document.getElementById('user-profile');
     
@@ -360,6 +345,11 @@ class AuthSystem {
         mobileUserProfile.style.display = 'block';
         this.updateMobileUserProfile();
       }
+      
+      // Initialiser le dropdown après affichage du profil
+      setTimeout(() => {
+        UIManager.initUserDropdown();
+      }, 100);
     } else {
       if (authButtons) {
         authButtons.innerHTML = `
@@ -397,7 +387,7 @@ class AuthSystem {
     this.populateModalHeaders();
   }
 
-  updateUserProfile() {
+  updateUserProfile() { // Profil desktop
     if (!this.currentUser) return;
     
     const users = this.getUsers();
@@ -412,7 +402,7 @@ class AuthSystem {
     if (userInitial) userInitial.textContent = user.name.charAt(0).toUpperCase();
   }
 
-  updateMobileUserProfile() {
+  updateMobileUserProfile() { // Profil mobile
     if (!this.currentUser) return;
     
     const users = this.getUsers();
@@ -427,7 +417,7 @@ class AuthSystem {
     if (mobileUserInitial) mobileUserInitial.textContent = user.name.charAt(0).toUpperCase();
   }
 
-  updateNavigation() {
+  updateNavigation() { // Protéger liens selon auth
     const navLinks = document.querySelectorAll('[href="html/list.html"], [href="../html/list.html"]');
     
     navLinks.forEach(link => {
@@ -446,13 +436,13 @@ class AuthSystem {
     });
   }
 
-  getUserLists() {
+  getUserLists() { // Récupère listes utilisateur
     if (!this.currentUser) return { favoris: [], aVoir: [], dejaVu: [] };
     const users = this.getUsers();
     return users[this.currentUser]?.lists || { favoris: [], aVoir: [], dejaVu: [] };
   }
 
-  updateUserLists(lists) {
+  updateUserLists(lists) { // Sauvegarde listes
     if (!this.currentUser) return;
     const users = this.getUsers();
     users[this.currentUser].lists = lists;
@@ -460,7 +450,7 @@ class AuthSystem {
     this.dispatchListsEvent();
   }
 
-  toggleMovieInList(movieId, listName, movieData = null) {
+  toggleMovieInList(movieId, listName, movieData = null) { // Ajoute/enlève film
     if (!this.currentUser) {
       this.showNotification('Connectez-vous pour gérer vos listes.', 'warning');
       return false;
@@ -482,12 +472,12 @@ class AuthSystem {
     }
   }
 
-  isMovieInList(movieId, listName) {
+  isMovieInList(movieId, listName) { // Vérifie appartenance
     const lists = this.getUserLists();
     return lists[listName].includes(parseInt(movieId));
   }
 
-  getListDisplayName(listName) {
+  getListDisplayName(listName) { // Nom lisible liste
     const names = {
       favoris: 'Favoris',
       aVoir: 'À regarder',
@@ -496,7 +486,7 @@ class AuthSystem {
     return names[listName] || listName;
   }
 
-  showNotification(message, type = 'info') {
+  showNotification(message, type = 'info') { // Notif auth locale
     const existing = document.querySelector('.notification');
     if (existing) existing.remove();
     
@@ -517,28 +507,27 @@ class AuthSystem {
     }, 4000);
   }
 
-  dispatchAuthEvent(isLoggedIn) {
+  dispatchAuthEvent(isLoggedIn) { // Émet évènement auth
     window.dispatchEvent(new CustomEvent('authStateChanged', {
       detail: { isLoggedIn, user: this.currentUser }
     }));
   }
 
-  dispatchListsEvent() {
+  dispatchListsEvent() { // Émet évènement listes
     window.dispatchEvent(new CustomEvent('userListsUpdated', {
       detail: { lists: this.getUserLists() }
     }));
   }
 
-  reinitEventListeners() {
-    console.log("🔄 Réinitialisation des event listeners...");
+  reinitEventListeners() { // Réattache écouteurs dynamiques
     this.setupEventListeners();
     this.updateUI();
   }
-  isLoggedIn() {
+  isLoggedIn() { // Bool connecté
     return !!this.currentUser;
   }
 
-  getUserData() {
+  getUserData() { // Données utilisateur
     if (!this.currentUser) return null;
     const users = this.getUsers();
     return users[this.currentUser] || null;
@@ -546,25 +535,11 @@ class AuthSystem {
 }
 
 function initAuth() {
-  if (window.auth) {
-    console.log("🔐 AuthSystem déjà initialisé");
-    return window.auth;
-  }
-  
-  console.log("🔐 Initialisation du système d'authentification...");
+  if (window.auth) return window.auth;
   window.auth = new AuthSystem();
-  
   window.testLogin = () => window.auth.showLoginModal();
   window.testRegister = () => window.auth.showRegisterModal();
-  window.testAuth = () => {
-    console.log("🧪 Test du système d'authentification:");
-    console.log("- Utilisateur actuel:", window.auth.currentUser);
-    console.log("- Utilisateurs stockés:", Object.keys(window.auth.getUsers()));
-    console.log("- Connecté:", window.auth.isLoggedIn());
-  };
-  
-  console.log("🧪 Fonctions de test créées : testLogin(), testRegister(), testAuth()");
-  
+  window.testAuth = () => {};
   return window.auth;
 }
 

@@ -1,13 +1,14 @@
+// Gestion des listes utilisateur (favoris, à voir, déjà vu)
 import { TMDBAPI } from './api.js';
 import { UIManager } from './ui.js';
 
-export class ListsManager {
+export class ListsManager { // Orchestrateur listes
   
-  constructor() {
+  constructor() { // État utilisateur courant
     this.currentUser = null;
   }
 
-  init() {
+  init() { // Initialisation de base
     this.currentUser = this.getCurrentUser();
     this.checkAuthStatus();
     this.initTabs();
@@ -18,19 +19,19 @@ export class ListsManager {
     }
   }
 
-  getCurrentUser() {
+  getCurrentUser() { // Lecture utilisateur courant
     return localStorage.getItem('blueflix_current_user');
   }
 
-  getUsers() {
+  getUsers() { // Récupère tous utilisateurs
     return JSON.parse(localStorage.getItem('blueflix_users') || '{}');
   }
 
-  setUsers(users) {
+  setUsers(users) { // Persiste utilisateurs
     localStorage.setItem('blueflix_users', JSON.stringify(users));
   }
 
-  checkAuthStatus() {
+  checkAuthStatus() { // Met à jour affichage selon auth
     const loginRequired = document.getElementById('login-required');
     const listsContainer = document.getElementById('lists-container');
     
@@ -43,7 +44,7 @@ export class ListsManager {
     }
   }
 
-  initTabs() {
+  initTabs() { // Prépare onglets
     const tabButtons = document.querySelectorAll('.tab-btn');
     
     tabButtons.forEach(btn => {
@@ -54,7 +55,7 @@ export class ListsManager {
     });
   }
 
-  switchTab(tabName) {
+  switchTab(tabName) { // Bascule onglet
     document.querySelectorAll('.tab-btn').forEach(btn => {
       btn.classList.remove('active');
     });
@@ -68,7 +69,7 @@ export class ListsManager {
     if (activeContent) activeContent.classList.add('active');
   }
 
-  loadUserLists() {
+  loadUserLists() { // Charge toutes les listes
     if (!this.currentUser) return;
     
     const users = this.getUsers();
@@ -80,7 +81,7 @@ export class ListsManager {
     });
   }
 
-  async loadList(listName, movieIds) {
+  async loadList(listName, movieIds) { // Charge une liste spécifique
     const container = document.getElementById(`${listName}-grid`);
     if (!container) return;
     
@@ -103,12 +104,12 @@ export class ListsManager {
       this.renderMoviesList(container, validMovies, listName);
       
     } catch (error) {
-      console.error('Erreur lors du chargement de la liste:', error);
+      
       UIManager.showError(container, 'Erreur lors du chargement de la liste.');
     }
   }
 
-  renderMoviesList(container, movies, listName) {
+  renderMoviesList(container, movies, listName) { // Rendu des films
     if (movies.length === 0) {
       this.showEmptyList(container, listName);
       return;
@@ -140,7 +141,7 @@ export class ListsManager {
     container.innerHTML = moviesHTML;
   }
 
-  showEmptyList(container, listName) {
+  showEmptyList(container, listName) { // État vide
     const messages = {
       favoris: {
         icon: '❤️',
@@ -171,14 +172,14 @@ export class ListsManager {
     `;
   }
 
-  updateListCount(listName, count) {
+  updateListCount(listName, count) { // Met compteur
     const countElement = document.getElementById(`${listName}-count`);
     if (countElement) {
       countElement.textContent = count;
     }
   }
 
-  addToList(movieId, listName) {
+  addToList(movieId, listName) { // Ajoute film
     if (!this.currentUser) {
       UIManager.showNotification('Vous devez être connecté pour ajouter des films à vos listes.', 'warning');
       return false;
@@ -210,7 +211,7 @@ export class ListsManager {
     return true;
   }
 
-  removeFromList(movieId, listName) {
+  removeFromList(movieId, listName) { // Retire film
     if (!confirm('Êtes-vous sûr de vouloir retirer ce film de votre liste ?')) {
       return;
     }
@@ -233,7 +234,7 @@ export class ListsManager {
     this.dispatchListUpdate();
   }
 
-  isInList(movieId, listName) {
+  isInList(movieId, listName) { // Vérifie présence
     if (!this.currentUser) return false;
     
     const users = this.getUsers();
@@ -243,7 +244,7 @@ export class ListsManager {
     return userLists[listName].includes(movieId);
   }
 
-  getListDisplayName(listName) {
+  getListDisplayName(listName) { // Libellé humain
     const names = {
       favoris: 'Favoris',
       aVoir: 'À regarder',
@@ -252,7 +253,7 @@ export class ListsManager {
     return names[listName] || listName;
   }
 
-  setupEventListeners() {
+  setupEventListeners() { // Écoute événements globaux
     window.addEventListener('userListsUpdated', () => {
       this.loadUserLists();
     });

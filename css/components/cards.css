@@ -1,0 +1,116 @@
+/* =======================
+   CARDS COMPONENT
+   ======================= */
+
+/* ===== Card Base Styles ===== */
+.card {
+  position: relative;
+  flex: 0 0 auto;
+  width: 140px;
+  height: 210px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  cursor: pointer;
+  transition: var(--transition);
+  background: var(--panel);
+  box-shadow: var(--card-shadow);
+}
+
+/* ===== Card Responsive ===== */
+@media (min-width: 768px) {
+  .card {
+    width: 150px;
+    height: 225px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .card {
+    width: 160px;
+    height: 240px;
+  }
+}
+
+/* ===== Card Visual Effects ===== */
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--gradient-primary);
+  opacity: 0;
+  transition: var(--transition);
+  z-index: 2;
+}
+
+.card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: var(--transition);
+  border-radius: var(--radius);
+}
+
+/* ===== Card Hover Effects ===== */
+.card:hover {
+  transform: scale(1.05) translateY(-10px);
+  box-shadow: var(--card-shadow-hover);
+  z-index: 10;
+}
+
+.card:hover::before {
+  opacity: 0.1;
+}
+
+.card:hover img {
+  transform: scale(1.1);
+  filter: brightness(1.2) contrast(1.1);
+}
+
+.card:hover ~ .card {
+  transform: translateX(20px);
+  opacity: 0.7;
+}
+
+/* ===== Mobile Hover Disable ===== */
+@media (max-width: 767px) {
+  .card:hover {
+    transform: none;
+    box-shadow: var(--card-shadow);
+  }
+
+  .card:hover::before {
+    opacity: 0;
+  }
+
+  .card:hover img {
+    transform: none;
+    filter: none;
+  }
+
+  .card:hover ~ .card {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+/* ===== Row Container ===== */
+.row-container {
+  margin: -2rem -4%;
+  padding: 2rem 4%;
+  position: relative;
+  background: linear-gradient(90deg, transparent 0%, rgba(30, 144, 255, 0.02) 50%, transparent 100%);
+  border-radius: var(--radius);
+}
+
+.row {
+  display: flex;
+  gap: 0.5rem;
+  transition: var(--transition);
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding: 0.5rem 0;
+}
+
+.row::-webkit-scrollbar {
+  display: none;
+}

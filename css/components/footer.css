@@ -1,0 +1,13 @@
+/* =======================
+   FOOTER COMPONENT
+   ======================= */
+
+/* ===== Footer Base ===== */
+.footer {
+  padding: 2rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--muted);
+  border-top: 2px solid var(--blue-500);
+  background: #0a0f1a;
+}

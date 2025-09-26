@@ -1,0 +1,83 @@
+/* =======================
+   CAST COMPONENT
+   ======================= */
+
+/* ===== Cast Grid Layout ===== */
+.cast-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+@media (min-width: 768px) {
+  .cast-grid {
+    grid-template-columns: repeat(6, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+/* ===== Cast Member ===== */
+.cast-member {
+  text-align: center;
+  transition: var(--transition);
+}
+
+.cast-member:hover {
+  transform: translateY(-5px);
+}
+
+/* ===== Cast Photo ===== */
+.cast-photo {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  border-radius: var(--radius);
+  margin-bottom: 0.5rem;
+  box-shadow: var(--card-shadow);
+  transition: var(--transition);
+  border: 2px solid rgba(30, 144, 255, 0.1);
+}
+
+@media (min-width: 768px) {
+  .cast-photo {
+    height: 140px;
+  }
+}
+
+.cast-photo:hover {
+  box-shadow: var(--card-shadow-hover);
+  border-color: var(--blue-400);
+  transform: scale(1.02);
+}
+
+/* ===== Cast Info ===== */
+.cast-info {
+  padding: 0.25rem 0;
+}
+
+.cast-name {
+  color: var(--text);
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-bottom: 0.25rem;
+  line-height: 1.2;
+}
+
+.cast-character {
+  color: var(--muted);
+  font-size: 0.8rem;
+  line-height: 1.2;
+  opacity: 0.8;
+}
+
+/* ===== Cast Responsive ===== */
+@media (min-width: 768px) {
+  .cast-name {
+    font-size: 0.95rem;
+  }
+  
+  .cast-character {
+    font-size: 0.85rem;
+  }
+}

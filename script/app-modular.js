@@ -1,3 +1,4 @@
+// Point d'entrée modulaire simplifié (anciennes pages)
 import { CONFIG } from './config.js';
 import { TMDBAPI } from './api.js';
 import { UIManager } from './ui.js';
@@ -8,8 +9,7 @@ import { ListsManager } from './lists.js';
 let searchManager;
 let listsManager;
 
-async function loadHome() {
-  console.log("🎬 Chargement de la page d'accueil...");
+async function loadHome() { // Charge page d'accueil
 
   // Charger le hero banner dynamique
   await HeroManager.loadHeroBanner();
@@ -17,16 +17,13 @@ async function loadHome() {
   const filmsRow = document.querySelector(".films-row");
   const seriesRow = document.querySelector(".series-row");
 
-  console.log("📍 Films row found:", !!filmsRow);
-  console.log("📍 Series row found:", !!seriesRow);
+  
 
   if (filmsRow) {
-    console.log("🎬 Chargement des films...");
     await loadMovieRow(filmsRow, 'popular');
   }
 
   if (seriesRow) {
-    console.log("📺 Chargement des séries...");
     await loadSeriesRow(seriesRow);
   }
 
@@ -34,7 +31,7 @@ async function loadHome() {
   await loadAdditionalSections();
 }
 
-async function loadMovieRow(container, type = 'popular') {
+async function loadMovieRow(container, type = 'popular') { // Charge une rangée de films
   const row = container.querySelector(".row");
   if (!row) return;
 
@@ -65,15 +62,15 @@ async function loadMovieRow(container, type = 'popular') {
           UIManager.appendToContainer(row, card);
         }
       });
-      console.log("✅ Films chargés:", data.results.length);
+      
     }
   } catch (error) {
-    console.error("❌ Erreur lors du chargement des films:", error);
+    // erreur lors du chargement des films
     UIManager.showError(row);
   }
 }
 
-async function loadSeriesRow(container) {
+async function loadSeriesRow(container) { // Charge une rangée de séries
   const row = container.querySelector(".row");
   if (!row) return;
 
@@ -90,15 +87,15 @@ async function loadSeriesRow(container) {
           UIManager.appendToContainer(row, card);
         }
       });
-      console.log("✅ Séries chargées:", data.results.length);
+      
     }
   } catch (error) {
-    console.error("❌ Erreur lors du chargement des séries:", error);
+    // erreur lors du chargement des séries
     UIManager.showError(row);
   }
 }
 
-async function loadAdditionalSections() {
+async function loadAdditionalSections() { // Sections complémentaires
   const topRatedSection = document.querySelector(".top-rated-row");
   if (topRatedSection) {
     await loadMovieRow(topRatedSection, 'top_rated');
@@ -110,8 +107,7 @@ async function loadAdditionalSections() {
   }
 }
 
-async function loadMovies() {
-  console.log("🎬 Chargement de la page des films...");
+async function loadMovies() { // Page films
   
   const movieRows = document.querySelectorAll(".movies-page .strip");
   
@@ -121,8 +117,7 @@ async function loadMovies() {
   }
 }
 
-async function loadSeries() {
-  console.log("📺 Chargement de la page des séries...");
+async function loadSeries() { // Page séries
   
   const seriesRows = document.querySelectorAll(".series-page .strip");
   
@@ -131,16 +126,15 @@ async function loadSeries() {
   }
 }
 
-function showDetailModal(id, type) {
-  console.log(`🎬 Opening detail modal for ${type} ${id}`);
+function showDetailModal(id, type) { // Ouvre modale détail (placeholder)
   UIManager.showNotification(`Ouverture des détails du ${type === 'movie' ? 'film' : 'série'} ${id}`, 'info');
 }
 
-function detectPageAndLoad() {
+function detectPageAndLoad() { // Détection page courante
   const path = window.location.pathname;
   const page = path.split('/').pop() || 'index.html';
   
-  console.log("🔍 Page détectée:", page);
+  
   
   switch(page) {
     case 'index.html':
@@ -157,7 +151,7 @@ function detectPageAndLoad() {
       // Les listes sont gérées par ListsManager
       break;
     default:
-      console.log("📄 Page inconnue, chargement par défaut");
+      
       loadHome();
   }
 }
@@ -170,7 +164,6 @@ window.showMovieDetail = function(movieId) {
 };
 
 function initApp() {
-  console.log("🚀 Initialisation de BlueFlix...");
   
   UIManager.initHamburgerMenu();
   UIManager.initScrollEffects();
@@ -189,7 +182,7 @@ function initApp() {
   
   detectPageAndLoad();
   
-  console.log("✅ BlueFlix initialisé avec succès!");
+  
 }
 
 document.addEventListener("DOMContentLoaded", initApp);

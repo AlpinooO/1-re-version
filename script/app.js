@@ -10,7 +10,6 @@ let searchManager;
 let listsManager;
 
 async function loadHome() {
-  console.log("🎬 Chargement de la page d'accueil...");
 
   // Charger le hero banner dynamique
   await HeroManager.loadHeroBanner();
@@ -18,16 +17,13 @@ async function loadHome() {
   const filmsRow = document.querySelector(".films-row");
   const seriesRow = document.querySelector(".series-row");
 
-  console.log("📍 Films row found:", !!filmsRow);
-  console.log("📍 Series row found:", !!seriesRow);
+  
 
   if (filmsRow) {
-    console.log("🎬 Chargement des films...");
     await loadMovieRow(filmsRow, 'popular');
   }
 
   if (seriesRow) {
-    console.log("📺 Chargement des séries...");
     await loadSeriesRow(seriesRow);
   }
 
@@ -39,11 +35,11 @@ async function loadMovieRow(container, type = 'popular') {
   // Si container est déjà la row, l'utiliser directement, sinon chercher .row à l'intérieur
   const row = container.classList?.contains('row') ? container : container.querySelector(".row");
   if (!row) {
-    console.error("❌ Aucun conteneur .row trouvé dans:", container);
+    
     return;
   }
 
-  console.log("🎯 Chargement dans:", row.className);
+  
   UIManager.showLoading(row, "Chargement des films...");
 
   try {
@@ -71,13 +67,13 @@ async function loadMovieRow(container, type = 'popular') {
           UIManager.appendToContainer(row, card);
         }
       });
-      console.log("✅ Films chargés:", data.length);
+      
     } else {
-      console.warn("⚠️ Aucun film reçu de l'API");
+      
       UIManager.showMessage(row, "Aucun film disponible");
     }
   } catch (error) {
-    console.error("❌ Erreur lors du chargement des films:", error);
+    
     UIManager.showError(row, "Erreur de chargement des films");
   }
 }
@@ -86,11 +82,11 @@ async function loadSeriesRow(container, type = 'popular') {
   // Si container est déjà la row, l'utiliser directement, sinon chercher .row à l'intérieur
   const row = container.classList?.contains('row') ? container : container.querySelector(".row");
   if (!row) {
-    console.error("❌ Aucun conteneur .row trouvé dans:", container);
+    
     return;
   }
 
-  console.log("🎯 Chargement séries dans:", row.className);
+  
   UIManager.showLoading(row, "Chargement des séries...");
 
   try {
@@ -112,7 +108,7 @@ async function loadSeriesRow(container, type = 'popular') {
         data = await TMDBAPI.getOnTheAirSeries();
         break;
       default:
-        console.warn(`⚠️ Type de série inconnu: ${type}, utilisation de 'popular'`);
+        
         data = await TMDBAPI.getPopularSeries();
     }
 
@@ -125,13 +121,13 @@ async function loadSeriesRow(container, type = 'popular') {
           UIManager.appendToContainer(row, card);
         }
       });
-      console.log("✅ Séries chargées:", data.length, `(${type})`);
+      
     } else {
-      console.warn("⚠️ Aucune série reçue de l'API");
+      
       UIManager.showMessage(row, "Aucune série disponible");
     }
   } catch (error) {
-    console.error("❌ Erreur lors du chargement des séries:", error);
+    
     UIManager.showError(row, "Erreur de chargement des séries");
   }
 }
@@ -139,17 +135,17 @@ async function loadSeriesRow(container, type = 'popular') {
 async function loadMovieRowByGenre(container, genreKey) {
   const row = container.classList?.contains('row') ? container : container.querySelector(".row");
   if (!row) {
-    console.error("❌ Aucun conteneur .row trouvé dans:", container);
+    
     return;
   }
 
-  console.log("🎯 Chargement films par genre:", genreKey);
+  
   UIManager.showLoading(row, "Chargement des films...");
 
   try {
     const genreId = CONFIG.movieGenres[genreKey];
     if (!genreId) {
-      console.warn(`⚠️ Genre inconnu: ${genreKey}`);
+      
       const data = await TMDBAPI.getPopularMovies();
       UIManager.clearContainer(row);
       if (data && data.length > 0) {
@@ -173,14 +169,14 @@ async function loadMovieRowByGenre(container, genreKey) {
           UIManager.appendToContainer(row, card);
         }
       });
-      console.log(`✅ Films ${genreKey} chargés:`, data.length);
+      
     } else {
-      console.warn("⚠️ Aucun film reçu pour le genre:", genreKey);
+      
       UIManager.showMessage(row, "Aucun film disponible");
     }
 
   } catch (error) {
-    console.error("❌ Erreur lors du chargement des films par genre:", error);
+    
     UIManager.showError(row, "Erreur de chargement");
   }
 }
@@ -188,17 +184,17 @@ async function loadMovieRowByGenre(container, genreKey) {
 async function loadSeriesRowByGenre(container, genreKey) {
   const row = container.classList?.contains('row') ? container : container.querySelector(".row");
   if (!row) {
-    console.error("❌ Aucun conteneur .row trouvé dans:", container);
+    
     return;
   }
 
-  console.log("🎯 Chargement séries par genre:", genreKey);
+  
   UIManager.showLoading(row, "Chargement des séries...");
 
   try {
     const genreId = CONFIG.seriesGenres[genreKey];
     if (!genreId) {
-      console.warn(`⚠️ Genre inconnu: ${genreKey}`);
+      
       const data = await TMDBAPI.getPopularSeries();
       UIManager.clearContainer(row);
       if (data && data.length > 0) {
@@ -222,14 +218,14 @@ async function loadSeriesRowByGenre(container, genreKey) {
           UIManager.appendToContainer(row, card);
         }
       });
-      console.log(`✅ Séries ${genreKey} chargées:`, data.length);
+      
     } else {
-      console.warn("⚠️ Aucune série reçue pour le genre:", genreKey);
+      
       UIManager.showMessage(row, "Aucune série disponible");
     }
 
   } catch (error) {
-    console.error("❌ Erreur lors du chargement des séries par genre:", error);
+    
     UIManager.showError(row, "Erreur de chargement");
   }
 }
@@ -247,7 +243,6 @@ async function loadAdditionalSections() {
 }
 
 async function loadMovies() {
-  console.log("🎬 Chargement de la page des films...");
   
   const movieStrips = document.querySelectorAll(".movies-page .strip");
   
@@ -272,7 +267,6 @@ async function loadMovies() {
 }
 
 async function loadSeries() {
-  console.log("📺 Chargement de la page des séries...");
   
   const seriesStrips = document.querySelectorAll(".series-page .strip");
   
@@ -297,13 +291,12 @@ async function loadSeries() {
 }
 
 async function showDetailModal(id, type) {
-  console.log(`🎬 Opening detail modal for ${type} ${id}`);
   
   const modal = document.getElementById('modal');
   const modalBody = document.querySelector('.modal-body');
   
   if (!modal || !modalBody) {
-    console.error('❌ Modal elements not found');
+    
     UIManager.showNotification('Erreur: Interface modale introuvable', 'error');
     return;
   }
@@ -311,12 +304,12 @@ async function showDetailModal(id, type) {
   modalBody.innerHTML = '<div class="loading">Chargement des détails...</div>';
   modal.classList.add('open');
   modal.style.removeProperty('display');
-  console.log('🟦 Modal open classes:', modal.className, 'inline display:', modal.style.display || '(none)');
+  
   document.body.style.overflow = 'hidden';
 
   try {
     let data;
-    console.log(`🔍 Fetching ${type} details for ID:`, id);
+    
     
     if (type === 'movie') {
       data = await TMDBAPI.getMovieDetails(id);
@@ -329,33 +322,25 @@ async function showDetailModal(id, type) {
       (type === 'movie' ? TMDBAPI.getMovieVideos(id) : TMDBAPI.getSeriesVideos(id))
     ]);
 
-    console.log('🎯 API Response data:', data);
-    console.log('📊 Data structure:', {
-      title: data.title,
-      name: data.name,
-      overview: data.overview,
-      vote_average: data.vote_average,
-      poster_path: data.poster_path
-    });
+    
 
     if (!data) {
-      console.error('❌ No data received from API');
+      
       throw new Error('Aucune donnée reçue de l\'API');
     }
 
     if (!data.title && !data.name) {
-      console.error('⚠️ Données reçues mais pas de titre:', data);
+      
       throw new Error('Données incomplètes reçues');
     }
 
-    console.log('🏗️ Generating modal HTML...');
+    
   const posterUrl = data.poster_path ? TMDBAPI.getImageUrl(data.poster_path) : '';
   const backdropUrl = data.backdrop_path ? TMDBAPI.getImageUrl(data.backdrop_path, 'w1280') : '';
-  if (!posterUrl) console.warn('⚠️ Aucun poster_path pour', id, type);
-  if (!backdropUrl) console.warn('ℹ️ Pas de backdrop, affichage sans image de fond');
+  
     
     const title = type === 'movie' ? data.title : data.name;
-    console.log('📝 Modal title:', title);
+    
     const releaseDate = type === 'movie' ? data.release_date : data.first_air_date;
     const year = releaseDate ? new Date(releaseDate).getFullYear() : 'N/A';
     
@@ -431,10 +416,10 @@ async function showDetailModal(id, type) {
     if (posterImgEl) {
       posterImgEl.addEventListener('load', () => {
         posterImgEl.removeAttribute('data-pending');
-        console.log('🖼️ Poster chargé:', posterImgEl.src);
+        
       }, { once:true });
       posterImgEl.addEventListener('error', () => {
-        console.warn('⚠️ Échec chargement poster, application placeholder');
+        
         posterImgEl.src = 'https://via.placeholder.com/360x540/1b2a44/7fa6d9?text=Affiche+indisponible';
         posterImgEl.removeAttribute('data-pending');
       }, { once:true });
@@ -456,7 +441,7 @@ async function showDetailModal(id, type) {
         iframe.style.transition='opacity .5s';
         iframe.addEventListener('load', () => { requestAnimationFrame(()=> iframe.style.opacity='1'); }, { once:true });
         iframe.addEventListener('error', () => {
-          console.warn('⚠️ Trailer non disponible, fallback affiche');
+          
           if (slot) {
             if (posterUrl) {
               slot.outerHTML = `<img class=\"poster-image\" src=\"${posterUrl}\" alt=\"${title}\">`;
@@ -495,17 +480,11 @@ async function showDetailModal(id, type) {
       }
     }
 
-    console.log('📄 HTML generated and inserted into modal');
-    console.log('🎨 Modal HTML content:', modalBody.innerHTML.substring(0, 200) + '...');
-    console.log('📏 Modal dimensions:', {
-      modal: modal.getBoundingClientRect(),
-      modalBody: modalBody.getBoundingClientRect()
-    });
-    console.log(`✅ Détails chargés pour: ${title}`);
+    
 
     const bodyRect = modalBody.getBoundingClientRect();
     if (!modalBody.innerHTML.trim() || bodyRect.height < 50) {
-      console.warn('⚠️ Fallback modal activé (contenu vide ou trop petit)');
+      
       modalBody.innerHTML = `
         <div style="padding:2rem;text-align:center;">
           <h2>${title}</h2>
@@ -515,7 +494,7 @@ async function showDetailModal(id, type) {
     }
 
   } catch (error) {
-    console.error('❌ Erreur lors du chargement des détails:', error);
+    
     modalBody.innerHTML = `
       <div class="modal-error">
         <h3>⚠️ Erreur de chargement</h3>
@@ -531,7 +510,7 @@ function initModal() {
   const closeBtn = document.querySelector('.modal-close');
   
   if (!modal) {
-    console.warn('⚠️ Modal element not found');
+    
     return;
   }
 
@@ -567,7 +546,7 @@ function initModal() {
     }
   });
 
-  console.log('✅ Modale initialisée');
+  
 }
 
 function initModalDetailActions() {
@@ -668,7 +647,7 @@ function detectPageAndLoad() {
   const path = window.location.pathname;
   const page = path.split('/').pop() || 'index.html';
   
-  console.log("🔍 Page détectée:", page);
+  
   
   switch(page) {
     case 'index.html':
@@ -685,7 +664,7 @@ function detectPageAndLoad() {
       // Les listes sont gérées par ListsManager
       break;
     default:
-      console.log("📄 Page inconnue, chargement par défaut");
+      
       loadHome();
   }
 }
@@ -698,9 +677,9 @@ window.showMovieDetail = function(movieId) {
 };
 
 function initApp() {
-  console.log("🚀 Initialisation de BlueFlix...");
   
   UIManager.initHamburgerMenu();
+  UIManager.initUserDropdown();
   UIManager.initScrollEffects();
   UIManager.initScrollButtons();
   
@@ -716,16 +695,14 @@ function initApp() {
   HeroManager.initHeroEvents();
   
   if (window.auth) {
-    console.log("🔐 Système d'authentification détecté");
     window.auth.reinitEventListeners();
   } else {
-    console.warn("⚠️ Système d'authentification non trouvé - tentative de réinitialisation...");
+    
     setTimeout(() => {
       if (window.auth) {
-        console.log("🔐 Système d'authentification trouvé en différé");
         window.auth.reinitEventListeners();
       } else {
-        console.error("❌ Impossible d'initialiser l'authentification");
+        
       }
     }, 500);
   }
@@ -741,8 +718,7 @@ function initApp() {
   
   detectPageAndLoad();
   
-  console.log("✅ BlueFlix initialisé avec succès!");
-  console.log("🔧 showDetailModal exposed:", typeof window.showDetailModal);
+  
 }
 
 document.addEventListener("DOMContentLoaded", initApp);

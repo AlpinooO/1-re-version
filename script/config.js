@@ -1,3 +1,4 @@
+// Configuration clés et constantes API TMDB
 export const API_KEY = "e4b90327227c88daac14c0bd0c1f93cd";
 export const BASE_URL = "https://api.themoviedb.org/3";
 export const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500";

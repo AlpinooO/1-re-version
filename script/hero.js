@@ -1,10 +1,11 @@
+// Gestion du bandeau hero dynamique
 import { TMDBAPI } from './api.js';
 import { CONFIG } from './config.js';
 
-export class HeroManager {
-  static async loadHeroBanner() {
+export class HeroManager { // Contrôle héro + vidéo
+  static async loadHeroBanner() { // Charge un film tendance et affiche
     try {
-      console.log("🎬 Chargement du hero banner...");
+      
       
       const data = await TMDBAPI.getTrendingMovies();
       if (data && data.length > 0) {
@@ -15,10 +16,10 @@ export class HeroManager {
         await this.loadHeroVideo(movie.id);
       }
     } catch (error) {
-      console.error("❌ Erreur lors du chargement du hero banner:", error);
+      
     }
   }
-  static async displayHeroBanner(movie) {
+  static async displayHeroBanner(movie) { // Remplit le contenu statique
     const heroSection = document.querySelector('.hero');
     if (!heroSection) return;
 
@@ -38,12 +39,12 @@ export class HeroManager {
     if (heroYear) heroYear.textContent = movie.release_date ? movie.release_date.split('-')[0] : '';
     if (heroRating) heroRating.textContent = `⭐ ${movie.vote_average?.toFixed(1)}`;
 
-    console.log("✅ Hero banner mis à jour:", movie.title);
+    
   }
 
-  static async loadHeroVideo(movieId) {
+  static async loadHeroVideo(movieId) { // Charge trailer différé
     try {
-      console.log("🎥 Chargement de la vidéo hero...");
+      
       
       setTimeout(async () => {
         const videosData = await TMDBAPI.getMovieVideos(movieId);
@@ -60,10 +61,10 @@ export class HeroManager {
       }, CONFIG.heroVideoDelay);
       
     } catch (error) {
-      console.error("❌ Erreur lors du chargement de la vidéo:", error);
+      
     }
   }
-  static insertHeroVideo(videoKey) {
+  static insertHeroVideo(videoKey) { // Insère iframe vidéo
     const heroSection = document.querySelector('.hero');
     if (!heroSection) return;
 
@@ -84,9 +85,9 @@ export class HeroManager {
       iframe.classList.add('active');
     }, 100);
 
-    console.log("✅ Vidéo hero chargée:", videoKey);
+    
   }
-  static toggleHeroVideo() {
+  static toggleHeroVideo() { // Affiche / cache vidéo
     const video = document.querySelector('.hero-background-video');
     if (!video) return;
     if (video.style.opacity === '0') {
@@ -95,18 +96,18 @@ export class HeroManager {
       video.style.opacity = '0';
     }
   }
-  static hideHeroVideo() {
+  static hideHeroVideo() { // Retire la vidéo
     const video = document.querySelector('.hero-background-video');
     if (video) {
       video.classList.remove('active');
       setTimeout(() => video.remove(), 500);
     }
   }
-  static async reloadHeroVideo() {
+  static async reloadHeroVideo() { // Recharge complet
     this.hideHeroVideo();
     await this.loadHeroBanner();
   }
-  static handleResize() {
+  static handleResize() { // Ajuste taille selon viewport
     const video = document.querySelector('.hero-background-video');
     if (!video) return;
     if (window.innerWidth <= 768) {
@@ -117,7 +118,7 @@ export class HeroManager {
       video.style.height = '100vh';
     }
   }
-  static initHeroEvents() {
+  static initHeroEvents() { // Écouteurs boutons hero
     window.addEventListener('resize', this.handleResize.bind(this));
     
     const playBtn = document.querySelector('.hero-play-btn');

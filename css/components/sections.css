@@ -1,0 +1,71 @@
+/* =======================
+   SECTIONS COMPONENT
+   ======================= */
+
+/* ===== Strip Base Styles ===== */
+.strip {
+  padding: 2rem 1rem;
+  position: relative;
+}
+
+/* ===== Strip Responsive ===== */
+@media (min-width: 768px) {
+  .strip {
+    padding: 2.5rem 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .strip {
+    padding: 3rem 4%;
+  }
+}
+
+/* ===== Strip Visual Elements ===== */
+.strip::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 100%;
+  background: var(--gradient-primary);
+  opacity: 0.6;
+}
+
+@media (min-width: 768px) {
+  .strip::before {
+    width: 4px;
+  }
+}
+
+/* ===== Strip Titles ===== */
+.strip h2 {
+  margin: 0 0 1.5rem;
+  font-size: 1.3rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--text) 0%, var(--blue-400) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  position: relative;
+  z-index: 1;
+}
+
+@media (min-width: 768px) {
+  .strip h2 {
+    margin: 0 0 2rem;
+    font-size: 1.6rem;
+  }
+}
+
+.strip h2::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background: var(--gradient-primary);
+  border-radius: 2px;
+}
