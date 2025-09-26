@@ -1,0 +1,31 @@
+﻿/* =========================
+   Variables CSS
+========================= */
+:root {
+  --blue-400: #1e90ff;
+  --blue-500: #0066cc;
+  --blue-600: #0052a3;
+  --blue-700: #003d7a;
+  --blue-800: #002952;
+  --bg: #0b1426;
+  --bg-secondary: #0f1b33;
+  --panel: #162340;
+  --panel-light: #1e2d4d;
+  --text: #ffffff;
+  --text-secondary: #e1e8f0;
+  --muted: #8b9dc3;
+  --accent: #00d9ff;
+  --success: #00ff88;
+  --warning: #ffaa00;
+  --error: #ff4444;
+  
+  --card-shadow: 0 8px 25px rgba(0,0,0,0.6);
+  --card-shadow-hover: 0 12px 35px rgba(30,144,255,0.3);
+  --radius: 6px;
+  --radius-large: 12px;
+  --transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --transition-fast: all 0.2s ease;
+  --blur: blur(15px);
+  --gradient-primary: linear-gradient(135deg, var(--blue-500) 0%, var(--blue-700) 100%);
+  --gradient-dark: linear-gradient(180deg, var(--bg) 0%, transparent 40%, var(--bg) 100%);
+}

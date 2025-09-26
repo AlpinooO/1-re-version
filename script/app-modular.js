@@ -225,17 +225,6 @@ function initApp() {
   // Initialiser les événements du hero
   HeroManager.initHeroEvents();
   
-  // Initialiser l'authentification après un délai pour s'assurer que auth.js est chargé
-  setTimeout(() => {
-    if (window.auth) {
-      console.log("🔐 Système d'authentification détecté");
-      // Réinitialiser l'auth si nécessaire
-      window.auth.reinitEventListeners();
-    } else {
-      console.warn("⚠️ Système d'authentification non trouvé");
-    }
-  }, 100);
-  
   // Détecter et charger le contenu de la page
   detectPageAndLoad();
   

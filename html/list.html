@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>BlueFlix — Mes Listes</title>
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/list.css">
+</head>
+<body class="list-page">
+<div class="site">
+
+  <header class="topbar">
+    <a href="../index.html" class="brand">Blue<span class="accent">Flix</span></a>
+    
+    <!-- Navigation desktop -->
+    <nav class="nav desktop-nav">
+      <a href="../index.html">Accueil</a>
+      <a href="movies.html">Films</a>
+      <a href="series.html">Séries</a>
+      <a href="list.html" class="active">Mes Listes</a>
+      <a href="about.html">À propos</a>
+    </nav>
+    
+    <div class="search-container">
+      <input type="text" id="search-input" placeholder="Rechercher...">
+      <button id="search-btn">🔍</button>
+    </div>
+    
+    <!-- Menu utilisateur -->
+    <div class="user-menu" id="user-menu">
+      <!-- Boutons pour utilisateurs non connectés -->
+      <div class="auth-buttons" id="auth-buttons">
+        <button class="auth-btn login-btn" id="login-btn">Connexion</button>
+        <button class="auth-btn register-btn" id="register-btn">Inscription</button>
+      </div>
+      
+      <!-- Menu pour utilisateurs connectés -->
+      <div class="user-profile" id="user-profile" style="display: none;">
+        <div class="user-avatar" id="user-avatar">
+          <span id="user-initial">U</span>
+        </div>
+        <div class="user-dropdown" id="user-dropdown">
+          <div class="user-info">
+            <span class="user-name" id="user-name">Utilisateur</span>
+            <span class="user-email" id="user-email">user@example.com</span>
+          </div>
+          <hr>
+          <a href="list.html" class="dropdown-item">📋 Mes Listes</a>
+          <a href="#" class="dropdown-item">⚙️ Paramètres</a>
+          <button class="dropdown-item logout-btn" id="logout-btn">🚪 Déconnexion</button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Menu hamburger pour mobile -->
+    <button class="hamburger" id="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </header>
+  
+  <!-- Menu mobile -->
+  <nav class="mobile-nav" id="mobile-nav">
+    <a href="../index.html">Accueil</a>
+    <a href="movies.html">Films</a>
+    <a href="series.html">Séries</a>
+    <a href="list.html" class="active">Mes Listes</a>
+    <a href="about.html">À propos</a>
+  </nav>
+
+  <main class="container">
+    <!-- Message pour utilisateurs non connectés -->
+    <div class="login-required" id="login-required">
+      <div class="login-required-content">
+        <h2>🔐 Connexion requise</h2>
+        <p>Vous devez être connecté pour accéder à vos listes personnalisées.</p>
+        <button class="auth-btn login-btn" onclick="document.getElementById('login-btn').click()">Se connecter</button>
+        <button class="auth-btn register-btn" onclick="document.getElementById('register-btn').click()">Créer un compte</button>
+      </div>
+    </div>
+
+    <!-- Contenu des listes pour utilisateurs connectés -->
+    <div class="lists-container" id="lists-container" style="display: none;">
+      <div class="lists-header">
+        <h1>Mes Listes</h1>
+        <p>Gérez vos films et séries favoris</p>
+      </div>
+
+      <!-- Onglets des listes -->
+      <div class="tabs-container">
+        <button class="tab-btn active" data-tab="favoris">❤️ Favoris <span class="count" id="favoris-count">0</span></button>
+        <button class="tab-btn" data-tab="aVoir">📋 À regarder <span class="count" id="aVoir-count">0</span></button>
+        <button class="tab-btn" data-tab="dejaVu">✅ Déjà vu <span class="count" id="dejaVu-count">0</span></button>
+      </div>
+
+      <!-- Contenu des onglets -->
+      <div class="tab-content active" id="favoris-content">
+        <div class="list-header">
+          <h2>❤️ Mes Favoris</h2>
+          <p>Vos films et séries préférés</p>
+        </div>
+        <div class="movies-grid" id="favoris-grid">
+          <!-- Contenu généré par JavaScript -->
+        </div>
+      </div>
+
+      <div class="tab-content" id="aVoir-content">
+        <div class="list-header">
+          <h2>📋 À regarder</h2>
+          <p>Films et séries que vous voulez découvrir</p>
+        </div>
+        <div class="movies-grid" id="aVoir-grid">
+          <!-- Contenu généré par JavaScript -->
+        </div>
+      </div>
+
+      <div class="tab-content" id="dejaVu-content">
+        <div class="list-header">
+          <h2>✅ Déjà vu</h2>
+          <p>Films et séries que vous avez regardés</p>
+        </div>
+        <div class="movies-grid" id="dejaVu-grid">
+          <!-- Contenu généré par JavaScript -->
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>© 2025 BlueFlix — Projet démonstration.</p>
+  </footer>
+
+</div>
+
+<!-- Modal de détails -->
+<div id="modal" class="modal">
+  <div class="modal-content">
+    <span class="modal-close">&times;</span>
+    <div class="modal-body"></div>
+  </div>
+</div>
+
+<!-- Modals d'authentification -->
+<div id="login-modal" class="auth-modal">
+  <div class="auth-modal-content">
+    <span class="auth-modal-close" id="login-close">&times;</span>
+    <div class="auth-modal-header">
+      <h2>Connexion</h2>
+      <p>Accédez à vos listes personnalisées</p>
+    </div>
+    <form id="login-form" class="auth-form">
+      <div class="form-group">
+        <label for="login-email">Email</label>
+        <input type="email" id="login-email" required>
+      </div>
+      <div class="form-group">
+        <label for="login-password">Mot de passe</label>
+        <input type="password" id="login-password" required>
+      </div>
+      <div class="form-error" id="login-error"></div>
+      <button type="submit" class="auth-submit-btn">Se connecter</button>
+    </form>
+  </div>
+</div>
+
+<div id="register-modal" class="auth-modal">
+  <div class="auth-modal-content">
+    <span class="auth-modal-close" id="register-close">&times;</span>
+    <div class="auth-modal-header">
+      <h2>Inscription</h2>
+      <p>Créez votre compte BlueFlix</p>
+    </div>
+    <form id="register-form" class="auth-form">
+      <div class="form-group">
+        <label for="register-name">Nom complet</label>
+        <input type="text" id="register-name" required>
+      </div>
+      <div class="form-group">
+        <label for="register-email">Email</label>
+        <input type="email" id="register-email" required>
+      </div>
+      <div class="form-group">
+        <label for="register-password">Mot de passe</label>
+        <input type="password" id="register-password" required>
+      </div>
+      <div class="form-group">
+        <label for="register-confirm">Confirmer le mot de passe</label>
+        <input type="password" id="register-confirm" required>
+      </div>
+      <div class="form-error" id="register-error"></div>
+      <button type="submit" class="auth-submit-btn">S'inscrire</button>
+    </form>
+  </div>
+</div>
+
+<script type="module" src="../script/app.js"></script>
+<script src="../script/auth.js"></script>
+</body>
+</html>

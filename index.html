@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>BlueFlix — Accueil</title>
+  <title>BlueFlix â€” Accueil</title>
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body class="home-page">
@@ -16,13 +16,40 @@
     <nav class="nav desktop-nav">
       <a href="index.html">Accueil</a>
       <a href="html/movies.html">Films</a>
-      <a href="html/series.html">Séries</a>
-      <a href="html/about.html">À propos</a>
+      <a href="html/series.html">SÃ©ries</a>
+      <a href="html/list.html" id="nav-lists">Mes Listes</a>
+      <a href="html/about.html">Ã€ propos</a>
     </nav>
     
     <div class="search-container">
       <input type="text" id="search-input" placeholder="Rechercher...">
-      <button id="search-btn">🔍</button>
+      <button id="search-btn">ðŸ”</button>
+    </div>
+    
+    <!-- Menu utilisateur -->
+    <div class="user-menu" id="user-menu">
+      <!-- Boutons pour utilisateurs non connectÃ©s -->
+      <div class="auth-buttons" id="auth-buttons">
+        <button class="btn-login" id="btn-login">Connexion</button>
+        <button class="btn-register" id="btn-register">Inscription</button>
+      </div>
+      
+      <!-- Menu pour utilisateurs connectÃ©s -->
+      <div class="user-profile" id="user-profile" style="display: none;">
+        <div class="user-avatar" id="user-avatar">
+          <span id="user-initial">U</span>
+        </div>
+        <div class="user-dropdown" id="user-dropdown">
+          <div class="user-info">
+            <span class="user-name" id="user-name">Utilisateur</span>
+            <span class="user-email" id="user-email">user@example.com</span>
+          </div>
+          <hr>
+          <a href="html/list.html" class="dropdown-item">ðŸ“‹ Mes Listes</a>
+          <a href="#" class="dropdown-item">âš™ï¸ ParamÃ¨tres</a>
+          <button class="dropdown-item logout-btn" id="logout-btn">ðŸšª DÃ©connexion</button>
+        </div>
+      </div>
     </div>
     
     <!-- Menu hamburger pour mobile -->
@@ -37,15 +64,16 @@
   <nav class="mobile-nav" id="mobile-nav">
     <a href="index.html">Accueil</a>
     <a href="html/movies.html">Films</a>
-    <a href="html/series.html">Séries</a>
-    <a href="html/about.html">À propos</a>
+    <a href="html/series.html">SÃ©ries</a>
+    <a href="html/list.html" id="mobile-nav-lists">Mes Listes</a>
+    <a href="html/about.html">Ã€ propos</a>
   </nav>
 
   <main class="container">
     <section class="hero">
       <div class="hero-inner">
-        <h1>Regardez vos contenus préférés.</h1>
-        <p>Interface inspirée du streaming, avec accents bleus et fond noir.</p>
+        <h1>Regardez vos contenus prÃ©fÃ©rÃ©s.</h1>
+        <p>Interface inspirÃ©e du streaming, avec accents bleus et fond noir.</p>
         <a class="cta" href="./html/movies.html">Voir les films</a>
       </div>
     </section>
@@ -53,24 +81,24 @@
 <section class="strip">
   <h2>Populaire maintenant</h2>
   <div class="row-container">
-    <button class="scroll-btn left">◀</button>
+    <button class="scroll-btn left">â—€</button>
     <div class="row films-row"></div>
-    <button class="scroll-btn right">▶</button>
+    <button class="scroll-btn right">â–¶</button>
   </div>
 </section>
 
     <section class="strip">
-      <h2>Nouveautés</h2>
+      <h2>NouveautÃ©s</h2>
       <div class="row-container">
-        <button class="scroll-btn left">◀</button>
+        <button class="scroll-btn left">â—€</button>
       <div class="row series-row"></div>
-          <button class="scroll-btn right">▶</button>
+          <button class="scroll-btn right">â–¶</button>
       </div>
     </section>
   </main>
 
   <footer class="footer">
-    <p>© 2025 BlueFlix — Projet démonstration.</p>
+    <p>Â© 2025 BlueFlix â€” Projet dÃ©monstration.</p>
   </footer>
 
 </div>
@@ -82,6 +110,67 @@
   </div>
 </div>
 
-<script src="script/app.js"></script>
+<!-- Modal de connexion -->
+<div id="login-modal" class="auth-modal">
+  <div class="auth-modal-content">
+    <span class="auth-modal-close" id="login-close">&times;</span>
+    <div class="auth-modal-header">
+      <h2>Connexion</h2>
+      <p>AccÃ©dez Ã  vos listes personnalisÃ©es</p>
+    </div>
+    <form id="login-form" class="auth-form">
+      <div class="form-group">
+        <label for="login-email">Email</label>
+        <input type="email" id="login-email" required>
+      </div>
+      <div class="form-group">
+        <label for="login-password">Mot de passe</label>
+        <input type="password" id="login-password" required>
+      </div>
+      <button type="submit" class="auth-btn">Se connecter</button>
+      <p class="auth-switch">
+        Pas encore de compte ? 
+        <a href="#" id="show-register">S'inscrire</a>
+      </p>
+    </form>
+  </div>
+</div>
+
+<!-- Modal d'inscription -->
+<div id="register-modal" class="auth-modal">
+  <div class="auth-modal-content">
+    <span class="auth-modal-close" id="register-close">&times;</span>
+    <div class="auth-modal-header">
+      <h2>Inscription</h2>
+      <p>CrÃ©ez votre compte BlueFlix</p>
+    </div>
+    <form id="register-form" class="auth-form">
+      <div class="form-group">
+        <label for="register-name">Nom</label>
+        <input type="text" id="register-name" required>
+      </div>
+      <div class="form-group">
+        <label for="register-email">Email</label>
+        <input type="email" id="register-email" required>
+      </div>
+      <div class="form-group">
+        <label for="register-password">Mot de passe</label>
+        <input type="password" id="register-password" required minlength="6">
+      </div>
+      <div class="form-group">
+        <label for="register-confirm">Confirmer le mot de passe</label>
+        <input type="password" id="register-confirm" required>
+      </div>
+      <button type="submit" class="auth-btn">S'inscrire</button>
+      <p class="auth-switch">
+        DÃ©jÃ  un compte ? 
+        <a href="#" id="show-login">Se connecter</a>
+      </p>
+    </form>
+  </div>
+</div>
+
+<script type="module" src="script/app.js"></script>
+<script src="script/auth.js"></script>
 </body>
 </html>
